@@ -1,10 +1,32 @@
-interface Colord {
-  rgba: {
-    r: number;
-    g: number;
-    b: number;
-  };
+interface RGB {
+  kind: "rgb";
+  r: number;
+  g: number;
+  b: number;
 }
+
+interface RGBA {
+  kind: "rgba";
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+type Color = RGB | RGBA;
+
+const rgbaToRGB = ({ r, g, b }: RGBA): RGB => {
+  return { kind: "rgb", r, g, b };
+};
+
+export const rgb = (color: Color): RGB => {
+  switch (color.kind) {
+    case "rgb":
+      return color;
+    case "rgba":
+      return rgbaToRGB(color);
+  }
+};
 
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
@@ -17,10 +39,10 @@ export const relativize = (value: number): number => {
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const luminance = (color: Colord): number => {
-  const r = relativize(color.rgba.r);
-  const g = relativize(color.rgba.g);
-  const b = relativize(color.rgba.b);
+export const luminance = (color: Color): number => {
+  const r = relativize(rgb(color).r);
+  const g = relativize(rgb(color).g);
+  const b = relativize(rgb(color).b);
 
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
@@ -28,7 +50,7 @@ export const luminance = (color: Colord): number => {
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const contrast = (c1: Colord, c2: Colord): number => {
+export const contrast = (c1: Color, c2: Color): number => {
   const l1 = luminance(c1);
   const l2 = luminance(c2);
 
@@ -63,8 +85,8 @@ const contrastLevel = ({ level = "AAA", size = "normal" }: Readability): number 
 };
 
 export const calculateContrast = (
-  c1: Colord,
-  c2: Colord,
+  c1: Color,
+  c2: Color,
   readability: Readability = { level: "AAA", size: "normal" },
 ): ReadabilityResult => {
   const score = contrast(c1, c2);
