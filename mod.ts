@@ -1,40 +1,3 @@
-const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
-const isShortHex = (input: string): boolean => input.length === 3 || input.length === 4;
-const isAlpha = (input: string): boolean => input.length === 4 || input.length === 8;
-
-const isHex = (input: string): boolean => {
-  return [3, 4, 6, 8].some((l) => input.length === l);
-};
-
-const sliceParts = (part: keyof Color, short: boolean): [number, number] => {
-  switch (part) {
-    case "r":
-      return short ? [0, 1] : [0, 2];
-    case "g":
-      return short ? [1, 2] : [2, 4];
-    case "b":
-      return short ? [2, 3] : [4, 6];
-    case "a":
-      return short ? [3, 4] : [6, 8];
-    default:
-      throw new Error("RGBA has more than four fields?!?");
-  }
-};
-
-const slicePart = (input: string, part: keyof Color): string => {
-  const short = isShortHex(input);
-  const [x, y] = sliceParts(part, short);
-  return short ? `${input.slice(x, y)}${input.slice(x, y)}` : input.slice(x, y);
-};
-
-const parseHexPart = (input: string, part: keyof Color): number => {
-  return parseInt(slicePart(input, part), 16);
-};
-
-const prefixHexPart = (part: string): string => {
-  return part.length === 1 ? `0${part}` : part;
-};
-
 interface Readability {
   level?: "AA" | "AAA";
   size?: "normal" | "large";
@@ -61,6 +24,12 @@ const contrastLevel = ({ level = "AAA", size = "normal" }: Readability): number 
   else if (level == "AA" && size === "large") return 3;
   else return 4.5;
 };
+
+const prefixHexPart = (part: string): string => {
+  return part.length === 1 ? `0${part}` : part;
+};
+
+export const isValid = (color: Color): boolean => !Object.values(color).some(isNaN);
 
 export class Color {
   r: number;
@@ -147,30 +116,5 @@ export class Color {
   static relativize(value: number): number {
     const ratio = value / 255;
     return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-  }
-
-  static hex(input: string): Color | never {
-    const text = removeHash(input.trim());
-    if (!isHex(text)) throw Error("Input was not a valid hex string");
-
-    const color = {
-      r: parseHexPart(text, "r"),
-      g: parseHexPart(text, "g"),
-      b: parseHexPart(text, "b"),
-      a: isAlpha(text) ? +(parseHexPart(text, "a") / 255).toFixed(2) : 1,
-    };
-
-    if (Object.values(color).some(isNaN)) {
-      const failed = Object.entries(color).filter(([_, val]) => isNaN(val)).map(([name, _]) => name);
-      console.log(failed);
-      throw Error("One or more parts of the hex string could not be parsed");
-    }
-
-    return new Color({
-      r: parseHexPart(text, "r"),
-      g: parseHexPart(text, "g"),
-      b: parseHexPart(text, "b"),
-      a: isAlpha(text) ? +(parseHexPart(text, "a") / 255).toFixed(2) : 1,
-    });
   }
 }
