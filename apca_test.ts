@@ -1,5 +1,4 @@
 import { assertEquals } from "testing/asserts.ts";
-import { colorFromTuple } from "./color.ts";
 import { hex, ligthnessContrast } from "./mod.ts";
 
 Deno.test("APCA is calculated correctly", () => {
@@ -24,12 +23,12 @@ Deno.test("APCA is calculated correctly", () => {
   assertEquals(ligthnessContrast(hex("#fff4cc"), hex("#3a1209")), -98.3);
   assertEquals(ligthnessContrast(hex("#3a1209"), hex("#fff4cc")), 96.4);
 
-  assertEquals(ligthnessContrast(colorFromTuple([136, 136, 136]), colorFromTuple([255, 255, 255])), 63.1);
-  assertEquals(ligthnessContrast(colorFromTuple([255, 255, 255]), colorFromTuple([136, 136, 136])), -68.5);
-  assertEquals(ligthnessContrast(colorFromTuple([0, 0, 0]), colorFromTuple([170, 170, 170])), 58.1);
-  assertEquals(ligthnessContrast(colorFromTuple([170, 170, 170]), colorFromTuple([0, 0, 0])), -56.2);
-  assertEquals(ligthnessContrast(colorFromTuple([17, 34, 51]), colorFromTuple([221, 51, 255])), 40.1);
-  assertEquals(ligthnessContrast(colorFromTuple([221, 51, 255]), colorFromTuple([17, 34, 51])), -38.4);
-  assertEquals(ligthnessContrast(colorFromTuple([17, 34, 51]), colorFromTuple([68, 68, 68])), 8.3);
-  assertEquals(ligthnessContrast(colorFromTuple([68, 68, 68]), colorFromTuple([17, 34, 51])), -7.5);
+  assertEquals(ligthnessContrast([136, 136, 136], [255, 255, 255]), 63.1);
+  assertEquals(ligthnessContrast([255, 255, 255], [136, 136, 136]), -68.5);
+  assertEquals(ligthnessContrast([0, 0, 0], [170, 170, 170]), 58.1);
+  assertEquals(ligthnessContrast([170, 170, 170], [0, 0, 0]), -56.2);
+  assertEquals(ligthnessContrast([17, 34, 51], [221, 51, 255]), 40.1);
+  assertEquals(ligthnessContrast([221, 51, 255], [17, 34, 51]), -38.4);
+  assertEquals(ligthnessContrast([17, 34, 51], [68, 68, 68]), 8.3);
+  assertEquals(ligthnessContrast([68, 68, 68], [17, 34, 51]), -7.5);
 });

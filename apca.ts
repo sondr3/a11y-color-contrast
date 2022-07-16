@@ -27,9 +27,9 @@ const clampMinimumContrast = (foreground: Color, background: Color): number => {
 };
 
 export const screenLuminance = (color: Color): number => {
-  const r = Math.pow(color.r / 255, 2.4) * 0.2126729;
-  const g = Math.pow(color.g / 255, 2.4) * 0.7151522;
-  const b = Math.pow(color.b / 255, 2.4) * 0.0721750;
+  const r = Math.pow(color[0] / 255, 2.4) * 0.2126729;
+  const g = Math.pow(color[1] / 255, 2.4) * 0.7151522;
+  const b = Math.pow(color[2] / 255, 2.4) * 0.0721750;
 
   return r + g + b;
 };

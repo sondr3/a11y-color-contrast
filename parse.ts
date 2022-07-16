@@ -1,6 +1,7 @@
-import { Color, color } from "./color.ts";
+import { Color } from "./color.ts";
 
-const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
+export const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
+
 export const isShortHex = (input: string): boolean => input.length === 3 || input.length === 4;
 export const isAlpha = (input: string): boolean => input.length === 4 || input.length === 8;
 
@@ -8,39 +9,22 @@ export const isHex = (input: string): boolean => {
   return [3, 4, 6, 8].some((l) => removeHash(input).length === l);
 };
 
-const sliceParts = (part: keyof Color, short: boolean): [number, number] => {
-  switch (part) {
-    case "r":
-      return short ? [0, 1] : [0, 2];
-    case "g":
-      return short ? [1, 2] : [2, 4];
-    case "b":
-      return short ? [2, 3] : [4, 6];
-    case "a":
-      return short ? [3, 4] : [6, 8];
-    default:
-      throw new Error("RGBA has more than four fields?!?");
-  }
+export const trimInput = (input: string): string => {
+  const text = removeHash(input.trim());
+  if (isAlpha(text) && isShortHex(text)) return text.slice(0, 3);
+  else if (isAlpha(text)) return text.slice(0, 6);
+  else return text;
 };
 
-const slicePart = (input: string, part: keyof Color): string => {
-  const short = isShortHex(input);
-  const [x, y] = sliceParts(part, short);
-  return short ? `${input.slice(x, y)}${input.slice(x, y)}` : input.slice(x, y);
-};
-
-const parseHexPart = (input: string, part: keyof Color): number => {
-  return parseInt(slicePart(input, part), 16);
+const chunk = (input: string, slice: number, tail: Array<string> = []): Array<string> => {
+  return input.length > 0
+    ? chunk(input.slice(slice), slice, [...tail, input.slice(0, slice).repeat(slice === 2 ? 1 : 2)])
+    : tail;
 };
 
 export const hex = (input: string): Color => {
-  const text = removeHash(input.trim());
-  if (!isHex(text)) return color({ r: NaN, g: NaN, b: NaN, a: NaN });
+  if (!isHex(input.trim())) return [NaN, NaN, NaN];
 
-  return color({
-    r: parseHexPart(text, "r"),
-    g: parseHexPart(text, "g"),
-    b: parseHexPart(text, "b"),
-    a: isAlpha(text) ? +(parseHexPart(text, "a") / 255).toFixed(2) : 1,
-  });
+  const text = trimInput(input);
+  return chunk(text, isShortHex(text) ? 1 : 2).map((p) => parseInt(p, 16)) as Color;
 };

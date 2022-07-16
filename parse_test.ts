@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
-import { Color, color, isValid, toHex, toRGB, toRGBA } from "./color.ts";
+import { Color, isValid, toHex } from "./color.ts";
 import { hex } from "./parse.ts";
 
 interface ColorTest {
@@ -10,50 +10,50 @@ interface ColorTest {
 const hexTests: Array<ColorTest> = [
   {
     input: "#000000",
-    color: color({ r: 0, g: 0, b: 0 }),
+    color: [0, 0, 0],
   },
   {
     input: "#ffffff",
-    color: color({ r: 255, g: 255, b: 255 }),
+    color: [255, 255, 255],
   },
   {
     input: "#ff0000",
-    color: color({ r: 255, g: 0, b: 0 }),
+    color: [255, 0, 0],
   },
   {
     input: "#ff00ff",
-    color: color({ r: 255, g: 0, b: 255 }),
+    color: [255, 0, 255],
   },
   {
     input: "#808080",
-    color: color({ r: 128, g: 128, b: 128 }),
+    color: [128, 128, 128],
   },
   {
     input: "#76a800",
-    color: color({ r: 118, g: 168, b: 0 }),
+    color: [118, 168, 0],
   },
   {
     input: "#6699cc",
-    color: color({ r: 102, g: 153, b: 204 }),
+    color: [102, 153, 204],
   },
 ];
 
 Deno.test("simple hex parsing", () => {
   for (const { input, color: expected } of hexTests) {
-    assertEquals(toRGB(hex(input)), toRGB(expected));
+    assertEquals(hex(input), expected);
     assertEquals(toHex(hex(input)), input);
   }
 });
 
 Deno.test("support hex4 and hex8", () => {
-  assertEquals(toRGBA(hex("#ffffffff")), { r: 255, g: 255, b: 255, a: 1 });
-  assertEquals(toRGBA(hex("#80808080")), { r: 128, g: 128, b: 128, a: 0.5 });
-  assertEquals(toRGBA(hex("#AAAF")), { r: 170, g: 170, b: 170, a: 1 });
-  assertEquals(toRGBA(hex("#5550")), { r: 85, g: 85, b: 85, a: 0 });
+  assertEquals(hex("#ffffffff"), [255, 255, 255]);
+  assertEquals(hex("#80808080"), [128, 128, 128]);
+  assertEquals(hex("#AAAF"), [170, 170, 170]);
+  assertEquals(hex("#5550"), [85, 85, 85]);
 });
 
 Deno.test("Ignores a case and extra whitespace", () => {
-  assertEquals(toRGBA(hex(" #0a0a0a ")), { r: 10, g: 10, b: 10, a: 1 });
+  assertEquals(hex(" #0a0a0a "), [10, 10, 10]);
 });
 
 Deno.test("valid input is valid", () => {

@@ -1,16 +1,9 @@
-export interface Color {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
+export type Color = [number, number, number];
 
-export const color = ({ r = NaN, g = NaN, b = NaN, a = 1 }: Partial<Color>): Color => {
-  return { r, g, b, a };
-};
+type ColorObject = { r: number; g: number; b: number };
 
-export const colorFromTuple = (c: [number, number, number] | [number, number, number, number]): Color => {
-  return color({ r: c[0], g: c[1], b: c[2], a: c[3] ?? 1 });
+export const colorFromObject = (input: ColorObject): Color => {
+  return Object.values(input) as Color;
 };
 
 const prefixHexPart = (part: string): string => {
@@ -19,24 +12,10 @@ const prefixHexPart = (part: string): string => {
 
 export const isValid = (color: Color): boolean => !Object.values(color).some(isNaN);
 
-export const toRGB = (color: Color): { r: number; g: number; b: number } => {
-  return { r: color.r, g: color.g, b: color.b };
-};
-
-export const toRGBA = (color: Color): { r: number; g: number; b: number; a: number } => {
-  return { ...toRGB(color), a: color.a };
-};
-
 export const toHex = (color: Color): string => {
-  const r = prefixHexPart(color.r.toString(16));
-  const g = prefixHexPart(color.g.toString(16));
-  const b = prefixHexPart(color.b.toString(16));
+  const r = prefixHexPart(color[0].toString(16));
+  const g = prefixHexPart(color[1].toString(16));
+  const b = prefixHexPart(color[2].toString(16));
 
   return `#${r}${g}${b}`;
-};
-
-export const toHexA = (color: Color): string => {
-  const a = prefixHexPart(Math.round(color.a * 255).toString(16));
-
-  return `${toHex(color)}${a}`;
 };

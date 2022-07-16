@@ -1,4 +1,4 @@
-import { Color, color } from "./color.ts";
+import { Color } from "./color.ts";
 
 export interface Readability {
   level?: "AA" | "AAA";
@@ -47,9 +47,9 @@ export const relativeLuminance = (value: number): number => {
  * Note: this function is identical for WCAG 2.0, 2.1 and 2.2;
  */
 export const luminance = (color: Color): number => {
-  const r = relativeLuminance(color.r);
-  const g = relativeLuminance(color.g);
-  const b = relativeLuminance(color.b);
+  const r = relativeLuminance(color[0]);
+  const g = relativeLuminance(color[1]);
+  const b = relativeLuminance(color[2]);
 
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
@@ -61,7 +61,7 @@ export const luminance = (color: Color): number => {
  */
 export const contrast = (
   c1: Color,
-  c2: Color = color({ r: 255, g: 255, b: 255 }),
+  c2: Color = [255, 255, 255],
 ): number => {
   const l1 = luminance(c1);
   const l2 = luminance(c2);
@@ -81,7 +81,7 @@ export const contrast = (
  */
 export const isReadable = (
   foreground: Color,
-  background: Color = color({ r: 255, g: 255, b: 255 }),
+  background: Color = [255, 255, 255],
   readability: Readability = { level: "AAA", size: "normal" },
 ): boolean => {
   const score = contrast(foreground, background);
