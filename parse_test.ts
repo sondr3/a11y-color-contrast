@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
-import { Color, color, isValid, toHex, toRBG, toRBGA } from "./color.ts";
+import { Color, color, isValid, toHex, toRGB, toRGBA } from "./color.ts";
 import { hex } from "./parse.ts";
 
 interface ColorTest {
@@ -40,20 +40,20 @@ const hexTests: Array<ColorTest> = [
 
 Deno.test("simple hex parsing", () => {
   for (const { input, color: expected } of hexTests) {
-    assertEquals(toRBG(hex(input)), toRBG(expected));
+    assertEquals(toRGB(hex(input)), toRGB(expected));
     assertEquals(toHex(hex(input)), input);
   }
 });
 
 Deno.test("support hex4 and hex8", () => {
-  assertEquals(toRBGA(hex("#ffffffff")), { r: 255, g: 255, b: 255, a: 1 });
-  assertEquals(toRBGA(hex("#80808080")), { r: 128, g: 128, b: 128, a: 0.5 });
-  assertEquals(toRBGA(hex("#AAAF")), { r: 170, g: 170, b: 170, a: 1 });
-  assertEquals(toRBGA(hex("#5550")), { r: 85, g: 85, b: 85, a: 0 });
+  assertEquals(toRGBA(hex("#ffffffff")), { r: 255, g: 255, b: 255, a: 1 });
+  assertEquals(toRGBA(hex("#80808080")), { r: 128, g: 128, b: 128, a: 0.5 });
+  assertEquals(toRGBA(hex("#AAAF")), { r: 170, g: 170, b: 170, a: 1 });
+  assertEquals(toRGBA(hex("#5550")), { r: 85, g: 85, b: 85, a: 0 });
 });
 
 Deno.test("Ignores a case and extra whitespace", () => {
-  assertEquals(toRBGA(hex(" #0a0a0a ")), { r: 10, g: 10, b: 10, a: 1 });
+  assertEquals(toRGBA(hex(" #0a0a0a ")), { r: 10, g: 10, b: 10, a: 1 });
 });
 
 Deno.test("valid input is valid", () => {

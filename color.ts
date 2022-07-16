@@ -15,12 +15,12 @@ const prefixHexPart = (part: string): string => {
 
 export const isValid = (color: Color): boolean => !Object.values(color).some(isNaN);
 
-export const toRBG = (color: Color): { r: number; g: number; b: number } => {
+export const toRGB = (color: Color): { r: number; g: number; b: number } => {
   return { r: color.r, g: color.g, b: color.b };
 };
 
-export const toRBGA = (color: Color): { r: number; g: number; b: number; a: number } => {
-  return { ...toRBG(color), a: color.a };
+export const toRGBA = (color: Color): { r: number; g: number; b: number; a: number } => {
+  return { ...toRGB(color), a: color.a };
 };
 
 export const toHex = (color: Color): string => {
