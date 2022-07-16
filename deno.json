@@ -1,8 +1,0 @@
-{
-  "importMap": "import_map.json",
-  "fmt": {
-    "options": {
-      "lineWidth": 120
-    }
-  }
-}

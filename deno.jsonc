@@ -1,0 +1,20 @@
+{
+  "importMap": "import_map.json",
+  "fmt": {
+    "files": {
+      "exclude": [
+        "npm/"
+      ]
+    },
+    "options": {
+      "lineWidth": 120
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        "npm/"
+      ]
+    }
+  }
+}

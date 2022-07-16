@@ -7,7 +7,7 @@
     <b>A simple utility package for working with WCAG 2.2/3.0 color contrasts</b>
 </p>
 
-- **a11y**: Built for checking how readable colors are together 
+- **a11y**: Built for checking how readable colors are together
 - **Simple:** Parsing of hex strings, contrast checks
 - **WCAG**: Support for checking both WCAG 2.0 and WCAG 3.0 contrasts
 - **APCA**: Support for the upcoming [APCA][apca] contrast algorithm
