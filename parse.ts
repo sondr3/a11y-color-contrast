@@ -1,4 +1,4 @@
-import { Color } from "./mod.ts";
+import { Color, color } from "./color.ts";
 
 const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
 export const isShortHex = (input: string): boolean => input.length === 3 || input.length === 4;
@@ -35,9 +35,9 @@ const parseHexPart = (input: string, part: keyof Color): number => {
 
 export const hex = (input: string): Color => {
   const text = removeHash(input.trim());
-  if (!isHex(text)) return new Color({ r: NaN, g: NaN, b: NaN });
+  if (!isHex(text)) return color({ r: NaN, g: NaN, b: NaN, a: NaN });
 
-  return new Color({
+  return color({
     r: parseHexPart(text, "r"),
     g: parseHexPart(text, "g"),
     b: parseHexPart(text, "b"),

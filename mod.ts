@@ -25,12 +25,6 @@ const contrastLevel = ({ level = "AAA", size = "normal" }: Readability): number 
   else return 4.5;
 };
 
-const prefixHexPart = (part: string): string => {
-  return part.length === 1 ? `0${part}` : part;
-};
-
-export const isValid = (color: Color): boolean => !Object.values(color).some(isNaN);
-
 export class Color {
   r: number;
   g: number;
@@ -86,30 +80,6 @@ export class Color {
       pass,
     };
   }
-
-  toRBG(): { r: number; g: number; b: number } {
-    return { r: this.r, g: this.g, b: this.b };
-  }
-
-  toRBGA(): { r: number; g: number; b: number; a: number } {
-    return { ...this.toRBG(), a: this.a };
-  }
-
-  toHex(): string {
-    const r = prefixHexPart(this.r.toString(16));
-    const g = prefixHexPart(this.g.toString(16));
-    const b = prefixHexPart(this.b.toString(16));
-
-    return `#${r}${g}${b}`;
-  }
-
-  toHexA(): string {
-    const rgb = this.toHex();
-    const a = prefixHexPart(Math.round(this.a * 255).toString(16));
-
-    return `${rgb}${a}`;
-  }
-
   /**
    * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
    */
