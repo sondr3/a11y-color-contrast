@@ -13,7 +13,7 @@ import { Color } from "./color.ts";
 export const isReadable = (
   foreground: Color,
   background: Color = [255, 255, 255],
-  readability: Readability = { level: "AAA", size: "normal" },
+  readability: WCAG = { level: "AAA", size: "normal" },
 ): boolean => {
   const score = contrast(foreground, background);
   return score >= contrastLevel(readability);
@@ -32,8 +32,8 @@ export const isReadable = (
 export const calculateContrast = (
   foreground: Color,
   background: Color,
-  readability: Readability = { level: "AAA", size: "normal" },
-): ReadabilityResult => {
+  readability: WCAG = { level: "AAA", size: "normal" },
+): WCAGScore => {
   const score = contrast(foreground, background);
   const pass = score >= contrastLevel(readability);
 
@@ -44,12 +44,12 @@ export const calculateContrast = (
   };
 };
 
-export interface Readability {
+export interface WCAG {
   level?: "AA" | "AAA";
   size?: "normal" | "large";
 }
 
-export interface ReadabilityResult extends Readability {
+export interface WCAGScore extends WCAG {
   score: number;
   pass: boolean;
 }
@@ -65,7 +65,7 @@ export interface ReadabilityResult extends Readability {
  *   The visual presentation of text and images of text has a contrast ratio of at least 7:1
  *   Large Text: Large-scale text and images of large-scale text have a contrast ratio of at least 4.5:1;
  */
-const contrastLevel = ({ level = "AAA", size = "normal" }: Readability): number => {
+const contrastLevel = ({ level = "AAA", size = "normal" }: WCAG): number => {
   if (level == "AAA" && size === "normal") return 7;
   else if (level == "AAA" && size === "large") return 4.5;
   else if (level == "AA" && size === "large") return 3;
