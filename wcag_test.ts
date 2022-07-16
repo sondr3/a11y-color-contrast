@@ -1,5 +1,6 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
-import { contrast, hex, isReadable, luminance, round } from "./mod.ts";
+import { hex, round } from "./mod.ts";
+import { contrast, isReadable, luminance } from "./wcag.ts";
 
 Deno.test("calculates perceived luminance of a color", () => {
   assertEquals(luminance(hex("#000000")), 0);

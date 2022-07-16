@@ -1,5 +1,6 @@
 import { assertEquals } from "testing/asserts.ts";
-import { hex, ligthnessContrast } from "./mod.ts";
+import { ligthnessContrast } from "./apca.ts";
+import { hex } from "./mod.ts";
 
 Deno.test("APCA is calculated correctly", () => {
   assertEquals(ligthnessContrast(hex("#1234b0"), hex("#e9e4d0")), 75.6);

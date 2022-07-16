@@ -1,6 +1,6 @@
 export type Color = [number, number, number];
 
-type ColorObject = { r: number; g: number; b: number };
+export type ColorObject = { r: number; g: number; b: number };
 
 export const colorFromObject = (input: ColorObject): Color => {
   return Object.values(input) as Color;
