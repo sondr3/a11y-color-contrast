@@ -1,15 +1,15 @@
 import { Color } from "./color.ts";
 
-export const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
+const removeHash = (input: string): string => input.charAt(0) === "#" ? input.slice(1) : input;
 
-export const isShortHex = (input: string): boolean => input.length === 3 || input.length === 4;
-export const isAlpha = (input: string): boolean => input.length === 4 || input.length === 8;
+const isShortHex = (input: string): boolean => input.length === 3 || input.length === 4;
+const isAlpha = (input: string): boolean => input.length === 4 || input.length === 8;
 
-export const isHex = (input: string): boolean => {
+const isHex = (input: string): boolean => {
   return [3, 4, 6, 8].some((l) => removeHash(input).length === l);
 };
 
-export const trimInput = (input: string): string => {
+const trimInput = (input: string): string => {
   const text = removeHash(input.trim());
   if (isAlpha(text) && isShortHex(text)) return text.slice(0, 3);
   else if (isAlpha(text)) return text.slice(0, 6);
