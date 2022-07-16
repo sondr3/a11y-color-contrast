@@ -1,14 +1,6 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
 import { describe, it } from "testing/bdd.ts";
-import { contrast, hex, isReadable, luminance, Readability } from "./mod.ts";
-
-export const round = (number: number, digits = 2, base = Math.pow(10, digits)): number => {
-  return Math.round((number + Number.EPSILON) * base) / base + 0;
-};
-
-export const floor = (number: number, digits = 2, base = Math.pow(10, digits)): number => {
-  return Math.floor(number + Number.EPSILON * base) / base;
-};
+import { contrast, hex, isReadable, luminance, Readability, round } from "./mod.ts";
 
 describe("WCAG 2.2", () => {
   it("calculates perceived luminance of a color", () => {

@@ -9,6 +9,10 @@ export const color = ({ r = NaN, g = NaN, b = NaN, a = 1 }: Partial<Color>): Col
   return { r, g, b, a };
 };
 
+export const colorFromTuple = (c: [number, number, number] | [number, number, number, number]): Color => {
+  return color({ r: c[0], g: c[1], b: c[2], a: c[3] ?? 1 });
+};
+
 const prefixHexPart = (part: string): string => {
   return part.length === 1 ? `0${part}` : part;
 };
