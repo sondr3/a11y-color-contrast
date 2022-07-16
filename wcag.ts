@@ -1,9 +1,6 @@
 import { Color, color } from "./color.ts";
 
-export type WCAG = "2.0" | "2.1" | "2.2";
-
 export interface Readability {
-  wcag?: WCAG;
   level?: "AA" | "AAA";
   size?: "normal" | "large";
 }
@@ -38,11 +35,8 @@ const contrastLevel = ({ level = "AAA", size = "normal" }: Readability): number 
  *
  * Note: this function is identical for WCAG 2.0 and 2.1 but 2.2 uses a different ratio constant.
  */
-export const relativeLuminance = (value: number, wcag: WCAG = "2.2"): number => {
+export const relativeLuminance = (value: number): number => {
   const ratio = value / 255;
-  if (wcag === "2.0" || wcag === "2.1") {
-    return ratio <= 0.03928 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-  }
 
   return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
 };
@@ -52,10 +46,10 @@ export const relativeLuminance = (value: number, wcag: WCAG = "2.2"): number => 
  *
  * Note: this function is identical for WCAG 2.0, 2.1 and 2.2;
  */
-export const luminance = (color: Color, wcag: WCAG = "2.2"): number => {
-  const r = relativeLuminance(color.r, wcag);
-  const g = relativeLuminance(color.g, wcag);
-  const b = relativeLuminance(color.b, wcag);
+export const luminance = (color: Color): number => {
+  const r = relativeLuminance(color.r);
+  const g = relativeLuminance(color.g);
+  const b = relativeLuminance(color.b);
 
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
@@ -68,10 +62,9 @@ export const luminance = (color: Color, wcag: WCAG = "2.2"): number => {
 export const contrast = (
   c1: Color,
   c2: Color = color({ r: 255, g: 255, b: 255 }),
-  wcag: WCAG = "2.2",
 ): number => {
-  const l1 = luminance(c1, wcag);
-  const l2 = luminance(c2, wcag);
+  const l1 = luminance(c1);
+  const l2 = luminance(c2);
 
   return l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05);
 };
@@ -89,9 +82,9 @@ export const contrast = (
 export const isReadable = (
   foreground: Color,
   background: Color = color({ r: 255, g: 255, b: 255 }),
-  readability: Readability = { level: "AAA", size: "normal", wcag: "2.2" },
+  readability: Readability = { level: "AAA", size: "normal" },
 ): boolean => {
-  const score = contrast(foreground, background, readability.wcag);
+  const score = contrast(foreground, background);
   return score >= contrastLevel(readability);
 };
 
@@ -108,9 +101,9 @@ export const isReadable = (
 export const calculateContrast = (
   foreground: Color,
   background: Color,
-  readability: Readability = { level: "AAA", size: "normal", wcag: "2.2" },
+  readability: Readability = { level: "AAA", size: "normal" },
 ): ReadabilityResult => {
-  const score = contrast(foreground, background, readability.wcag);
+  const score = contrast(foreground, background);
   const pass = score >= contrastLevel(readability);
 
   return {
