@@ -17,9 +17,15 @@
 <br />
 
 - [Installation](#installation)
-- [Getting started](#getting-started)
   - [Deno](#deno)
   - [Node](#node)
+- [Getting started](#getting-started)
+  - [`hex`](#hex)
+  - [`wcgaScore`](#wcgaScore)
+  - [`wcgaReadable`](#wcgaReadable)
+  - [`apcaScore`](#apcaScore)
+  - [`apcaToInterpolatedFont`](#apcaToInterpolatedFont)
+  - [`apcaValidateFont`](#apcaValidateFont)
 - [Inspiration and resources](#inspiration-and-resources)
 - [License](#license)
 
@@ -93,7 +99,7 @@ wcgaScore(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
 
 ## `wcgaReadable`
 
-A simpler version of the [`wcgaScore`][#wcgaScore] function, this checks whether two colors used together are readable
+A simpler version of the [`wcgaScore`](#wcgaScore) function, this checks whether two colors used together are readable
 based on the WCAG parameters passed.
 
 ```ts
@@ -116,7 +122,7 @@ wcgaReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
 
 Based on the upcoming WCAG 3.0 standard, this function is based on the [APCA][apca-nut] algorithm to calculate how
 readable two colors are when used together. The first argument is the foreground color and the second the background. It
-is highly recommended reading the linked article and [resources][#inspiration-and-resources] to get an overview over the
+is highly recommended reading the linked article and [resources](#inspiration-and-resources) to get an overview over the
 differences between the WCAG and APCA standard.
 
 ```ts
