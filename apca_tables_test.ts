@@ -316,7 +316,6 @@ const fixtures: [number, Rating[]][] = [
 
 Deno.test("apcaToInterpolatecFont matches reference implementation", () => {
   for (const [apca, expected] of fixtures) {
-    assertEquals(apcaToInterpolatedFont(apca), expected, `${apca} was wrong`);
     assertEquals(apcaToInterpolatedFont(apca), expected);
   }
 });
