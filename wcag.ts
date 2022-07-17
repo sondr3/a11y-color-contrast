@@ -1,5 +1,20 @@
 import { Color } from "./color.ts";
 
+export interface WCAG {
+  level?: "AA" | "AAA";
+  size?: "normal" | "large";
+}
+
+export interface WCAGScore extends WCAG {
+  score: number;
+  pass: boolean;
+}
+
+const setWCAG = ({ level = "AAA", size = "normal" }: WCAG): WCAG => ({
+  level: level ?? "AAA",
+  size: size ?? "normal",
+});
+
 /**
  * This function determines whether two colors used together are readable based
  * on WCAG readability criteria. The first color is the foreground color and the
@@ -13,10 +28,10 @@ import { Color } from "./color.ts";
 export const isReadable = (
   foreground: Color,
   background: Color = [255, 255, 255],
-  { level = "AAA", size = "normal" }: WCAG,
+  wcag?: WCAG,
 ): boolean => {
   const score = contrast(foreground, background);
-  return score >= contrastLevel({ level, size });
+  return score >= contrastLevel(setWCAG({ ...wcag }));
 };
 
 /**
@@ -32,28 +47,17 @@ export const isReadable = (
 export const calculateContrast = (
   foreground: Color,
   background: Color = [255, 255, 255],
-  { level = "AAA", size = "normal" }: WCAG,
+  wcag?: WCAG,
 ): WCAGScore => {
   const score = contrast(foreground, background);
-  const pass = score >= contrastLevel({ level, size });
+  const pass = score >= contrastLevel(setWCAG({ ...wcag }));
 
   return {
-    level,
-    size,
+    ...setWCAG({ ...wcag }),
     score,
     pass,
   };
 };
-
-export interface WCAG {
-  level?: "AA" | "AAA";
-  size?: "normal" | "large";
-}
-
-export interface WCAGScore extends WCAG {
-  score: number;
-  pass: boolean;
-}
 
 /**
  * See https://www.w3.org/WAI/WCAG22/quickref/#contrast-minimum for values from WCAG 2.2.
