@@ -1,3 +1,15 @@
+/**
+ * Create a sliding window across an array, where each window is some size.
+ */
+const slidingWindow = <T>(inputArray: Array<T>, size: number): Array<Array<T>> => {
+  return Array.from(
+    { length: inputArray.length - (size - 1) },
+    (_, index) => inputArray.slice(index, index + size),
+  );
+};
+
+const between = (start: number, end: number, value: number): boolean => value > start && value < end;
+
 const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 export type FontWeight = typeof fontWeights[number];
 
@@ -25,14 +37,10 @@ export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => C
 const nearestLc = (apca: number): LcValue | null => {
   const contrast = Math.abs(apca);
 
-  const contrasts = Object.keys(CONTRAST_TO_FONT_TABLE).map((k) => Number(k));
-  for (let i = 1; i < contrasts.length - 1; i++) {
-    if (contrasts[i - 1] < contrast && contrasts[i] >= contrast) {
-      return contrasts[i - 1] as LcValue;
-    }
-  }
+  const [val, _] = slidingWindow(Object.keys(CONTRAST_TO_FONT_TABLE).map((n) => Number(n) as LcValue), 2)
+    .find(([start, end]) => between(start, end, contrast)) ?? [null];
 
-  return null;
+  return val;
 };
 
 export const apcaToFontSizes = (apca: number): Array<LcFontSize> | null => {
@@ -46,8 +54,8 @@ export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
   const neareastLc = nearestLc(contrast);
   if (!neareastLc) return null;
 
-  const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc as LcValue];
-  const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc as LcValue];
+  const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc];
+  const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc];
 
   const score = (contrast - neareastLc) * 0.2;
 
