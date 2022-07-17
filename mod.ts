@@ -1,5 +1,6 @@
 export * from "./parse.ts";
 export * from "./color.ts";
+export * from "./apca_tables.ts";
 
 import { calculateContrast, isReadable } from "./wcag.ts";
 import { ligthnessContrast } from "./apca.ts";

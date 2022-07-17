@@ -20,7 +20,49 @@ export type FontContrast = {
 
 export const getFontContrast = (fontSize: FontSize): FontContrast => FONT_TO_CONTRAST_TABLE[fontSize];
 
-export const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
+export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => CONTRAST_TO_FONT_TABLE[contrast];
+
+const nearestLc = (apca: number): LcValue | null => {
+  const contrast = Math.abs(apca);
+
+  const contrasts = Object.keys(CONTRAST_TO_FONT_TABLE).map((k) => Number(k));
+  for (let i = 1; i < contrasts.length - 1; i++) {
+    if (contrasts[i - 1] < contrast && contrasts[i] >= contrast) {
+      return contrasts[i - 1] as LcValue;
+    }
+  }
+
+  return null;
+};
+
+export const apcaToFontSizes = (apca: number): Array<LcFontSize> | null => {
+  const contrast = nearestLc(apca);
+
+  return !contrast ? null : CONTRAST_TO_FONT_TABLE[contrast];
+};
+
+export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
+  const contrast = Math.floor(apca);
+  const neareastLc = nearestLc(apca);
+  if (!neareastLc) return null;
+
+  const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc as LcValue];
+  const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc as LcValue];
+
+  const score = (contrast - neareastLc) * 0.2;
+
+  return fontSizes.map((f, i) => {
+    if (!f) return "placeholder";
+    else if (contrast < 14.5) return "prohibited";
+    else if (contrast < 29.5) return "placeholder";
+    else {
+      if (f > 24) return Math.round(f - (fontDeltas[i] * score));
+      else return f - Math.floor(2.0 * fontDeltas[i] * score) * 0.5;
+    }
+  });
+}
+
+const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
   10: {
     100: { rating: "prohibited" },
     200: { rating: "prohibited" },
@@ -199,9 +241,7 @@ export const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
   },
 };
 
-export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => CONTRAST_TO_FONT_TABLE[contrast];
-
-export const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
+const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
   100: [42, 26.5, 18.5, 15, 14.5, 13.5, 13, 16, 18],
   95: [45, 28, 19.5, 15.5, 15, 14, 13.5, 16, 18],
   90: [48, 32, 21, 16, 15.5, 14.5, 14, 16, 18],
@@ -220,4 +260,25 @@ export const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
   25: [null, null, null, 120, 120, 108, 96, 96, 96],
   20: [null, null, null, null, null, null, null, null, null],
   15: [null, null, null, null, null, null, null, null, null],
+};
+
+const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
+  100: [3, 1.5, 0.5, 0.5, 0.5, 0.5, 1, 0, 0],
+  95: [3, 1.5, 1, 0.5, 0.5, 0.5, 0.5, 0, 0],
+  90: [3, 4, 1.5, 0.5, 0.5, 0.5, 0.5, 0, 0],
+  85: [4, 2.5, 1, 0.5, 0.125, 0.125, 0, 0, 0],
+  80: [4, 3.75, 1, 0.75, 0.188, 0.188, 0, 0, 0],
+  75: [4, 3.75, 1, 0.75, 0.188, 0.188, 0, 0, 0],
+  70: [4, 2, 4, 1.5, 2, 1, 0.5, 0, 0],
+  65: [4, 2, 4, 2.25, 1, 1, 0.5, 0, 0],
+  60: [4, 2, 10, 2.25, 2, 1, 1, 0, 0],
+  55: [8, 12, 6, 4, 3, 3, 2, 2, 0],
+  50: [16, 12, 12, 4, 4, 3, 3, 3, 3],
+  45: [12, 24, 12, 10, 4, 4, 3, 3, 3],
+  40: [12, 12, 24, 18, 16, 14, 8, 8, 8],
+  35: [0, 12, 12, 36, 24, 18, 16, 16, 16],
+  30: [0, 0, 12, 12, 36, 36, 24, 24, 24],
+  25: [0, 0, 0, 12, 12, 12, 24, 24, 24],
+  20: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  15: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
