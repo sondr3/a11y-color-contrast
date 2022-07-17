@@ -20,9 +20,28 @@ const lcValue = [110, 105, 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 
 export type LcValue = typeof lcValue[number];
 export type LcFontSize = number | null;
 
+/**
+ * The Lc rating of a contrast value:
+ *
+ * - "prohibited": if the contrast is too low for anything
+ * - "placeholder": contrast only useable for copyrights/placeholder text
+ * - number: if the value can be used
+ */
 export type Rating = number | "prohibited" | "placeholder";
+
+/**
+ * Modifiers for a Lc rating:
+ *
+ * - "non-text": Only usable for non-text content
+ * - "avoid-100": Avoid fonts with weight 100
+ * - "add-15": To be usable, add 15 Lc
+ * - "body-text": Good minimum values for blocks of text
+ */
 export type Modifier = "non-text" | "avoid-100" | "add-15" | "body-text";
 
+/**
+ * Value for a specific font size with its corresponding font weights and ratings.
+ */
 export type FontContrast = {
   [k in FontWeight]: {
     rating: Rating;
@@ -30,10 +49,19 @@ export type FontContrast = {
   };
 };
 
+/**
+ * A utility function for looking up the contrast data for a font size.
+ */
 export const getFontContrast = (fontSize: FontSize): FontContrast => FONT_TO_CONTRAST_TABLE[fontSize];
 
+/**
+ * A utility function for looking what font sizes work for a specific, supported contrast.
+ */
 export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => CONTRAST_TO_FONT_TABLE[contrast];
 
+/**
+ * From a calculated Lc value, find the nearest value in the contrast table.
+ */
 const nearestLc = (apca: number): LcValue | null => {
   const contrast = Math.abs(apca);
 
@@ -43,12 +71,18 @@ const nearestLc = (apca: number): LcValue | null => {
   return val;
 };
 
-export const apcaToFontSizes = (apca: number): Array<LcFontSize> | null => {
+/**
+ * Find the font sizes appropriate for for any Lc value, or null if none can be found.
+ */
+export const apcaToFont = (apca: number): Array<LcFontSize> | null => {
   const contrast = nearestLc(apca);
 
   return !contrast ? null : CONTRAST_TO_FONT_TABLE[contrast];
 };
 
+/**
+ * From a Lc value, interpolate and calculate the approriate font sizes.
+ */
 export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
   const contrast = Math.abs(apca);
   const neareastLc = nearestLc(contrast);
