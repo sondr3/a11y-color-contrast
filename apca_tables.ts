@@ -14,6 +14,8 @@ export type FontContrast = {
   };
 };
 
+export const getFontContrast = (fontSize: FontSize): FontContrast => FONT_TO_CONTRAST_TABLE[fontSize];
+
 export const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
   10: {
     100: { rating: "prohibited" },
