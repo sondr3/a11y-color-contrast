@@ -104,6 +104,48 @@ export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
   });
 }
 
+/**
+ * With a given Lc value, a list or a specific font size and if desired the
+ * font weights considered, does the Lc value satisfy the required minimum Lc
+ * value for the font.
+ *
+ * For example. If we have a fontsize of 16px, and want to know if it passes
+ * the required Lc value for a weight of 400 with a found Lc value of 94.90
+ * you'd call
+ *
+ * ```
+ * apcaValidateFont(94.90, 16, 400)
+ * > { "16": { "400": true } }
+ * ```
+ *
+ * and see that for this combination is passes the required minimum.
+ */
+export const apcaValidateFont = (
+  apca: number,
+  sizes: FontSize | Array<FontSize>,
+  weights?: FontWeight | ReadonlyArray<FontWeight>,
+) => {
+  const contrast = Math.abs(apca);
+  sizes = Array.isArray(sizes) ? sizes : [sizes];
+  if (weights !== undefined) {
+    weights = Array.isArray(weights) ? weights : [weights];
+  } else {
+    weights = fontWeights;
+  }
+
+  let res = {};
+  for (const font of sizes) {
+    for (const weight of weights) {
+      const fontContrast = FONT_TO_CONTRAST_TABLE[font];
+
+      // @ts-ignore: I can't make the compiler infer the types properly here :(
+      res = { ...res, [font]: { ...res[font], [weight]: contrast >= fontContrast[weight].rating } };
+    }
+  }
+
+  return res;
+};
+
 const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
   10: {
     100: { rating: "prohibited" },
