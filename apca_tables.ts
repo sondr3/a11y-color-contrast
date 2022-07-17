@@ -4,7 +4,7 @@ export type FontWeight = typeof fontWeights[number];
 const fontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const;
 export type FontSize = typeof fontSizes[number];
 
-const lcValue = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const;
+const lcValue = [110, 105, 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const;
 export type LcValue = typeof lcValue[number];
 export type LcFontSize = number | null;
 
@@ -42,8 +42,8 @@ export const apcaToFontSizes = (apca: number): Array<LcFontSize> | null => {
 };
 
 export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
-  const contrast = Math.floor(apca);
-  const neareastLc = nearestLc(apca);
+  const contrast = Math.abs(apca);
+  const neareastLc = nearestLc(contrast);
   if (!neareastLc) return null;
 
   const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc as LcValue];
@@ -242,6 +242,8 @@ const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
 };
 
 const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
+  110: [36, 24, 18, 14, 13, 12, 11, 16, 18],
+  105: [39, 25, 18, 14.5, 14, 13, 12, 16, 18],
   100: [42, 26.5, 18.5, 15, 14.5, 13.5, 13, 16, 18],
   95: [45, 28, 19.5, 15.5, 15, 14, 13.5, 16, 18],
   90: [48, 32, 21, 16, 15.5, 14.5, 14, 16, 18],
@@ -263,6 +265,8 @@ const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
 };
 
 const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
+  110: [1.5, 1.5, 0.75, 1.5, 1.125, 0.75, 0.375, 1.5, 1.5],
+  105: [3, 1, 0, 0.5, 1, 1, 1, 0, 0],
   100: [3, 1.5, 0.5, 0.5, 0.5, 0.5, 1, 0, 0],
   95: [3, 1.5, 1, 0.5, 0.5, 0.5, 0.5, 0, 0],
   90: [3, 4, 1.5, 0.5, 0.5, 0.5, 0.5, 0, 0],
