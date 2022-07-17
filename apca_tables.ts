@@ -72,15 +72,6 @@ const nearestLc = (apca: number): LcValue | null => {
 };
 
 /**
- * Find the font sizes appropriate for for any Lc value, or null if none can be found.
- */
-export const apcaToFont = (apca: number): Array<LcFontSize> | null => {
-  const contrast = nearestLc(apca);
-
-  return !contrast ? null : CONTRAST_TO_FONT_TABLE[contrast];
-};
-
-/**
  * From a Lc value, interpolate and calculate the approriate font sizes.
  */
 export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {

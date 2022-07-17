@@ -13,10 +13,10 @@ import { Color } from "./color.ts";
 export const isReadable = (
   foreground: Color,
   background: Color = [255, 255, 255],
-  readability: WCAG = { level: "AAA", size: "normal" },
+  { level = "AAA", size = "normal" }: WCAG,
 ): boolean => {
   const score = contrast(foreground, background);
-  return score >= contrastLevel(readability);
+  return score >= contrastLevel({ level, size });
 };
 
 /**
@@ -31,14 +31,15 @@ export const isReadable = (
  */
 export const calculateContrast = (
   foreground: Color,
-  background: Color,
-  readability: WCAG = { level: "AAA", size: "normal" },
+  background: Color = [255, 255, 255],
+  { level = "AAA", size = "normal" }: WCAG,
 ): WCAGScore => {
   const score = contrast(foreground, background);
-  const pass = score >= contrastLevel(readability);
+  const pass = score >= contrastLevel({ level, size });
 
   return {
-    ...readability,
+    level,
+    size,
     score,
     pass,
   };
