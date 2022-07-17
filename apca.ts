@@ -1,7 +1,7 @@
 import { Color } from "./color.ts";
 import { round } from "./mod.ts";
 
-// Code derived from formulas in https://github.com/Myndex/apca-w3/blob/99be5162ddb000e4d49551756830d2a9fd92955e/images/APCAw3_0.1.17_APCA0.0.98G.svg, done without looking at the APCA-W3 implementation.
+// Code derived from formulas in https://github.com/Myndex/apca-w3/blob/99be5162ddb000e4d49551756830d2a9fd92955e/images/APCAw3_0.1.17_APCA0.0.98G.svg.
 
 const B_EXP = 1.414;
 const B_THRESH = 0.022;
