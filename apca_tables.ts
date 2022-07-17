@@ -4,6 +4,10 @@ export type FontWeight = typeof fontWeights[number];
 const fontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const;
 export type FontSize = typeof fontSizes[number];
 
+const lcValue = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const;
+export type LcValue = typeof lcValue[number];
+export type LcFontSize = number | null;
+
 export type Rating = number | "prohibited" | "placeholder";
 export type Modifier = "non-text" | "avoid-100" | "add-15" | "body-text";
 
@@ -193,4 +197,27 @@ export const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
     800: { rating: 30 },
     900: { rating: 30 },
   },
+};
+
+export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => CONTRAST_TO_FONT_TABLE[contrast];
+
+export const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
+  100: [42, 26.5, 18.5, 15, 14.5, 13.5, 13, 16, 18],
+  95: [45, 28, 19.5, 15.5, 15, 14, 13.5, 16, 18],
+  90: [48, 32, 21, 16, 15.5, 14.5, 14, 16, 18],
+  85: [52, 34.5, 22, 16.5, 15.625, 14.625, 14, 16, 18],
+  80: [56, 38.25, 23, 17.25, 15.81, 14.81, 14, 16, 18],
+  75: [60, 42, 24, 18, 16, 15, 14, 16, 18],
+  70: [64, 44, 28, 19.5, 18, 16, 14.5, 16, 18],
+  65: [68, 46, 32, 21.75, 19, 17, 15, 16, 18],
+  60: [72, 48, 42, 24, 21, 18, 16, 16, 18],
+  55: [80, 60, 48, 28, 24, 21, 18, 18, 18],
+  50: [96, 72, 60, 32, 28, 24, 21, 21, 21],
+  45: [108, 96, 72, 42, 32, 28, 24, 24, 24],
+  40: [120, 108, 96, 60, 48, 42, 32, 32, 32],
+  35: [null, 120, 108, 96, 72, 60, 48, 48, 48],
+  30: [null, null, 120, 108, 108, 96, 72, 72, 72],
+  25: [null, null, null, 120, 120, 108, 96, 96, 96],
+  20: [null, null, null, null, null, null, null, null, null],
+  15: [null, null, null, null, null, null, null, null, null],
 };
