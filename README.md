@@ -109,8 +109,8 @@ wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
 
 ## `wcagContrastValue`
 
-A simpler version of the [`wcag`](#wcag) function, this checks whether two colors used together are readable based on
-the WCAG parameters passed.
+A simpler version of the [`wcag`](#wcag) function, this returns the contrast value between two colors based on the WCAG
+2.2 algorithm.
 
 ```ts
 // import { hex, wcagContrastValue } from "a11y-color-contrast";
