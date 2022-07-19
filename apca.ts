@@ -22,11 +22,11 @@ const P_OUT = 0.1;
  * ```ts
  * import { apcaContrastValue } from "./apca.ts";
  *
- * apcaContrastValue([18, 52, 86], [0, 0, 0]) // purple on black
- * // 98.5
+ * apcaContrastValue([26, 26, 26], [255, 255, 255]) // black on white
+ * // 104.3
  *
- * apcaContrastValue([0, 0, 0], [18, 52, 86]) // inverted from above
- * // -101.9
+ * apcaContrastValue([255, 255, 255], [26, 26, 26]) // inverted from above
+ * // -106.55
  * ```
  *
  * See https://github.com/Myndex/SAPC-APCA/ for concrete details for APCA.
