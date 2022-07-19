@@ -2,7 +2,7 @@ export * from "./parse.ts";
 export * from "./color.ts";
 export * from "./apca_tables.ts";
 
-export { wcagReadable, wcgaScore } from "./wcag.ts";
+export { wcag, wcagReadable, wcgaScore } from "./wcag.ts";
 export { ligthnessContrast as apcaScore } from "./apca.ts";
 
 /**
