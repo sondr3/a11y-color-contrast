@@ -15,12 +15,16 @@ const setWCAG = ({ level = "AAA", size = "normal" }: WCAG): WCAG => ({
   size: size ?? "normal",
 });
 
+type IsReadableArgs = Parameters<typeof wcagReadable>;
+
 /**
  * WCAG related functionality.
  */
-export const wcag = Object.freeze({
-  isReadable: wcagReadable,
-});
+export class WCAG {
+  static isReadable(...args: IsReadableArgs) {
+    return wcagReadable(...args);
+  }
+}
 
 /**
  * This function determines whether two colors used together are readable based
