@@ -35,12 +35,12 @@ export class WCAG {
  * in WCAG 2.2.
  *
  * ```ts
- * import { wcgaReadable } from "./wcag.ts";
+ * import { wcagReadable } from "./wcag.ts";
  *
- * wcgaReadable([0, 255, 0], [0, 0, 0]) // green on black
+ * wcagReadable([0, 255, 0], [0, 0, 0]) // green on black
  * // true
  *
- * wcgaReadable([169, 169, 169], [0, 0, 0]) // dark gray on black
+ * wcagReadable([169, 169, 169], [0, 0, 0]) // dark gray on black
  * // false
  * ```
  *
@@ -60,18 +60,18 @@ export function wcagReadable(foreground: Color, background: Color = [255, 255, 2
  * in WCAG 2.2.
  *
  * ```ts
- * import { wcgaScore } from "./wcag.ts";
+ * import { wcagScore } from "./wcag.ts";
  *
- * wcgaScore([0, 255, 0], [0, 0, 0]) // green on black
+ * wcagScore([0, 255, 0], [0, 0, 0]) // green on black
  * // { level: "AAA", size: "normal", score: 15.303999999999998, pass: true }
  *
- * wcgaScore([169, 169, 169], [0, 0, 0]) // dark gray on black
+ * wcagScore([169, 169, 169], [0, 0, 0]) // dark gray on black
  * // { level: "AAA", size: "normal", score: 2.6043964062893665, pass: false }
  * ```
  *
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export function wcgaScore(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): WCAGScore {
+export function wcagScore(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): WCAGScore {
   const score = contrast(foreground, background);
   const pass = score >= contrastLevel(setWCAG({ ...wcag }));
 
