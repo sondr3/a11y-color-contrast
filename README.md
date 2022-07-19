@@ -1,6 +1,8 @@
 <h1 align="center">a11y-color-contrast</h1>
 <p align="center">
     <a href="https://github.com/sondr3/a11y-color-contrast/actions"><img alt="GitHub Actions Status" src="https://github.com/sondr3/a11y-color-contrast/workflows/pipeline/badge.svg" /></a>
+    <a href="https://www.npmjs.com/package/a11y-color-contrast"><img alt="npm" src="https://img.shields.io/npm/v/a11y-color-contrast" /></a>
+    <a href="https://doc.deno.land/https://deno.land/x/a11y-color-contrast/mod.ts"><img src="https://img.shields.io/badge/deno-doc-blue?logo=deno"></a>
 </p>
 
 <p align="center">
