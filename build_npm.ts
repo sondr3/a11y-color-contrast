@@ -17,7 +17,7 @@ await build({
   },
   package: {
     name: "a11y-color-contrast",
-    version: Deno.args[0],
+    version: Deno.args[0]?.replace(/^v/, ""),
     author: "Sondre Nilsen <sondre@eons.io> (https://www.eons.io)",
     description: "A simple utility package for working with WCAG 2.2/3.0 color contrasts",
     license: "MIT",

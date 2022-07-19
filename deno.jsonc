@@ -1,4 +1,8 @@
 {
+  "tasks": {
+    "npm": "deno run -A ./build_npm.ts",
+    "test": "deno test --ignore=npm/"
+  },
   "importMap": "import_map.json",
   "fmt": {
     "files": {
