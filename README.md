@@ -23,11 +23,13 @@
   - [Node](#node)
 - [Getting started](#getting-started)
   - [`hex`](#hex)
-  - [`wcgaScore`](#wcgaScore)
-  - [`wcgaReadable`](#wcgaReadable)
-  - [`apcaScore`](#apcaScore)
+  - [`wcag`](#wcag)
+  - [`wcagContrastValue`](#wcagContrastValue)
+  - [`wcagIsReadable`](#wcagIsReadable)
+  - [`apcaContrastValue`](#apcaScore)
   - [`apcaToInterpolatedFont`](#apcaToInterpolatedFont)
   - [`apcaValidateFont`](#apcaValidateFont)
+  - [Utilities](#utilities)
 - [Inspiration and resources](#inspiration-and-resources)
 - [License](#license)
 
@@ -38,10 +40,10 @@
 ## Deno
 
 ```ts
-import { apcaScore, hex, wcgaScore } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { apcaContrastValue, hex, wcagContrastValue } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
-const wcga = wcgaScore(hex("#e1e1e1"), hex("#fff"));
-const apca = apcaScore(hex("#e1e1e1"), hex("#fff"));
+const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
+const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
 ```
 
 ## Node
@@ -49,10 +51,10 @@ const apca = apcaScore(hex("#e1e1e1"), hex("#fff"));
 Install the module with your favorite manager: `npm add a11y-color-contrast`
 
 ```ts ignore
-import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { apcaContrastValue, hex, wcagContrastValue } from "a11y-color-contrast";
 
-const wcga = wcgaScore(hex("#e1e1e1"), hex("#fff"));
-const apca = apcaScore(hex("#e1e1e1"), hex("#fff"));
+const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
+const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
 ```
 
 # Getting started
@@ -64,10 +66,11 @@ You can also read the documentation on
 
 `hex` is a utility function to parse a hex string to a `[number, number, number]`, useful if your colors are not in the
 `RBG` format. Supports both short and long hex colors, and will strip out the alpha channel when the hex string contains
-it.
+it. **Note,** the returned tripled will contain `NaN` if the string cannot be parsed. Use [`isValidColor`](#utilities)
+to check if the input can be invalid.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+// import { hex } from "a11y-color-contrast";
 import { hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 hex("#fff");
@@ -81,52 +84,68 @@ hex("#11ff0000");
 hex("fff");
 ```
 
-## `wcgaScore`
+## `wcag`
 
 Based on the [WCAG 2.2][wcag] algorithm to calculate how readable two colors are when used together. The first argument
 is the foreground color and the second the background. By default, the function defaults to checking whether the colors
 pass the WCAG AAA standard (7:1 contrast ratio) for normal text.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
-import { hex, wcgaScore } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+// import { hex, wcag } from "a11y-color-contrast";
+import { hex, wcag } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
-wcgaScore(hex("#fff"), hex("#e1e1e1"));
+wcag(hex("#fff"), hex("#e1e1e1"));
 // { level: "AAA", size: "normal", score: 1.3076906134240802, pass: false }
 
-wcgaScore(hex("#0f0f0f"), hex("#fff"));
+wcag(hex("#0f0f0f"), hex("#fff"));
 // { level: "AAA", size: "normal", score: 19.168645448127652, pass: true }
 
-wcgaScore(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
+wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
 // { level: "AA", size: "normal", score: 6.8668010864317885, pass: true }
 
-wcgaScore(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
+wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
 // { level: "AA", size: "large", score: 6.8668010864317885, pass: true }
 ```
 
-## `wcgaReadable`
+## `wcagContrastValue`
 
-A simpler version of the [`wcgaScore`](#wcgaScore) function, this checks whether two colors used together are readable
-based on the WCAG parameters passed.
+A simpler version of the [`wcag`](#wcag) function, this checks whether two colors used together are readable based on
+the WCAG parameters passed.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
-import { hex, wcgaReadable } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+// import { hex, wcagContrastValue } from "a11y-color-contrast";
+import { hex, wcagContrastValue } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
-wcgaReadable(hex("#fff"), hex("#e1e1e1"));
+wcagContrastValue(hex("#fff"), hex("#e1e1e1"));
+// 1.3076906134240802
+
+wcagContrastValue(hex("#0f0f0f"), hex("#fff"));
+// 19.168645448127652
+```
+
+## `wcagIsReadable`
+
+A simpler version of the [`wcag`](#wcag) function, this checks whether two colors used together are readable based on
+the WCAG parameters passed.
+
+```ts
+// import { hex, wcagIsReadable } from "a11y-color-contrast";
+import { hex, wcagIsReadable } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+
+wcagIsReadable(hex("#fff"), hex("#e1e1e1"));
 // false
 
-wcgaReadable(hex("#0f0f0f"), hex("#fff"));
+wcagIsReadable(hex("#0f0f0f"), hex("#fff"));
 // true
 
-wcgaReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
-// true
+wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AAA" });
+// false
 
-wcgaReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
+wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
 // true
 ```
 
-## `apcaScore`
+## `apcaContrastValue`
 
 Based on the upcoming WCAG 3.0 standard, this function is based on the [APCA][apca-nut] algorithm to calculate how
 readable two colors are when used together. The first argument is the foreground color and the second the background. It
@@ -134,16 +153,16 @@ is highly recommended reading the linked article and [resources](#inspiration-an
 differences between the WCAG and APCA standard.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
-import { apcaScore, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+// import { apcaContrastValue, hex } from "a11y-color-contrast";
+import { apcaContrastValue, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
-apcaScore(hex("#fff"), hex("#e1e1e1"));
+apcaContrastValue(hex("#fff"), hex("#e1e1e1"));
 // -17.5
 
-apcaScore(hex("#0f0f0f"), hex("#fff"));
+apcaContrastValue(hex("#0f0f0f"), hex("#fff"));
 // 105.5
 
-apcaScore(hex("#0f0f0f"), hex("#f4f"));
+apcaContrastValue(hex("#0f0f0f"), hex("#f4f"));
 // 51.2
 ```
 
@@ -157,7 +176,7 @@ The returned array contains nine values, corresponding to the font useable at fo
 until weight 900 at index 8.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+// import { apcaToInterpolatedFont, hex } from "a11y-color-contrast";
 import { apcaToInterpolatedFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 apcaToInterpolatedFont(-17.5);
@@ -183,7 +202,7 @@ parameter is either a single font weight or an array of them. If the weight para
 all the font weights.
 
 ```ts
-// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+// import { apcaValidateFont, hex } from "a11y-color-contrast";
 import { apcaValidateFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 apcaValidateFont(-17.5, 36, 800);
@@ -201,6 +220,47 @@ apcaValidateFont(51.2, [18, 32]);
 //   "18": { "100": false, "200": false, ..., "700": false, "800": false, "900": false },
 //   "32": { "100": false, "200": false, ..., "500": true, "600": true, "700": true, "800": true, "900": true }
 // }
+```
+
+## Utility functions
+
+### `toHex`
+
+Converts an RGB triplet to its hex string representation.
+
+```ts
+// import { toHex } from "a11y-color-contrast";
+import { toHex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+
+toHex([0, 0, 0]);
+// "#000000"
+```
+
+### `isValidColor`
+
+Checks whether a color parsed via [`hex`](#hex) is valid.
+
+```ts
+// import { isValidColor } from "a11y-color-contrast";
+import { isValidColor } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+
+isValidColor([0, 0, 0]);
+// true
+
+isValidColor([NaN, 0, 0]);
+// false
+```
+
+### `colorFromObject`
+
+Converts an RGB object into an RGB triplet.
+
+```ts
+// import { colorFromObject } from "a11y-color-contrast";
+import { colorFromObject } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+
+colorFromObject({ r: 0, g: 0, b: 0 });
+// [0, 0, 0]
 ```
 
 # Inspiration and resources
