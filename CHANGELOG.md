@@ -1,3 +1,34 @@
+## v0.2.0
+
+> 2022-07-19
+
+## Summary
+
+Fixed some unfortunate misspellings of WCAG, renamed a bunch of functions and added lots more documentation.
+
+### Commits
+
+- [[`2d95d74`](https://github.com/sondr3/a11y-color-contrast.git)] Yet another tiny mistake
+- [[`105b82b`](https://github.com/sondr3/a11y-color-contrast.git)] Temporarily disable doc tests
+- [[`a5f5ea9`](https://github.com/sondr3/a11y-color-contrast.git)] Update README
+- [[`145b249`](https://github.com/sondr3/a11y-color-contrast.git)] Fix totally wrong values in apcaContrastValue docs
+- [[`ad05e86`](https://github.com/sondr3/a11y-color-contrast.git)] Add documentation to isValidColor
+- [[`12eb2e9`](https://github.com/sondr3/a11y-color-contrast.git)] Rename more things, more documentation
+- [[`a0eebf0`](https://github.com/sondr3/a11y-color-contrast.git)] Create new wcagContrastValue function, more
+  documentation
+- [[`170b205`](https://github.com/sondr3/a11y-color-contrast.git)] Yeah, nah, no more grouped exports
+- [[`99d110c`](https://github.com/sondr3/a11y-color-contrast.git)] And export the class
+- [[`0027b63`](https://github.com/sondr3/a11y-color-contrast.git)] Fix names being wrong :facepalm:
+- [[`bdb7b48`](https://github.com/sondr3/a11y-color-contrast.git)] Try with a class instead
+- [[`75818aa`](https://github.com/sondr3/a11y-color-contrast.git)] Actually export wcag object
+- [[`797f2a1`](https://github.com/sondr3/a11y-color-contrast.git)] Function renaming, add documentation
+- [[`cfc5893`](https://github.com/sondr3/a11y-color-contrast.git)] Convert functions to named functions for deno doc
+- [[`e9b3e07`](https://github.com/sondr3/a11y-color-contrast.git)] Add documentation, example to 'toHex' function
+- [[`0d20fe6`](https://github.com/sondr3/a11y-color-contrast.git)] Change toHex method to use bit shifting dark magics
+- [[`cfb3d73`](https://github.com/sondr3/a11y-color-contrast.git)] Run doctests on CI, fix README/examples so they
+  compile
+- [[`f53d244`](https://github.com/sondr3/a11y-color-contrast.git)] Fix wrong URL to documentation
+
 ## v0.1.0
 
 > 2022-07-19
