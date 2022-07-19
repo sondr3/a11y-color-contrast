@@ -8,6 +8,9 @@ export type Color = [number, number, number];
  */
 export type ColorObject = { r: number; g: number; b: number };
 
+/**
+ * Checks if any of the values in an RGB triplet is `NaN`
+ */
 export function isValidColor(color: Color): boolean {
   return !Object.values(color).some(isNaN);
 }
