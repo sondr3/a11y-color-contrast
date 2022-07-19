@@ -25,14 +25,10 @@ const setWCAG = ({ level = "AAA", size = "normal" }: WCAG): WCAG => ({
  *
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const isReadable = (
-  foreground: Color,
-  background: Color = [255, 255, 255],
-  wcag?: WCAG,
-): boolean => {
+export function isReadable(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): boolean {
   const score = contrast(foreground, background);
   return score >= contrastLevel(setWCAG({ ...wcag }));
-};
+}
 
 /**
  * This function calculates the contrast and whether two colors used together are readable
@@ -44,11 +40,7 @@ export const isReadable = (
  *
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const calculateContrast = (
-  foreground: Color,
-  background: Color = [255, 255, 255],
-  wcag?: WCAG,
-): WCAGScore => {
+export function calculateContrast(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): WCAGScore {
   const score = contrast(foreground, background);
   const pass = score >= contrastLevel(setWCAG({ ...wcag }));
 
@@ -57,7 +49,7 @@ export const calculateContrast = (
     score,
     pass,
   };
-};
+}
 
 /**
  * See https://www.w3.org/WAI/WCAG22/quickref/#contrast-minimum for values from WCAG 2.2.
@@ -80,32 +72,29 @@ const contrastLevel = ({ level = "AAA", size = "normal" }: WCAG): number => {
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const relativeLuminance = (value: number): number => {
+export function relativeLuminance(value: number): number {
   const ratio = value / 255;
 
   return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-};
+}
 
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const luminance = (color: Color): number => {
+export function luminance(color: Color): number {
   const r = relativeLuminance(color[0]);
   const g = relativeLuminance(color[1]);
   const b = relativeLuminance(color[2]);
 
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
+}
 
 /**
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
  */
-export const contrast = (
-  c1: Color,
-  c2: Color = [255, 255, 255],
-): number => {
+export function contrast(c1: Color, c2: Color = [255, 255, 255]): number {
   const l1 = luminance(c1);
   const l2 = luminance(c2);
 
   return l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05);
-};
+}

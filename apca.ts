@@ -10,9 +10,9 @@ const R_SCALE = 1.14;
 const W_OFFSET = 0.027;
 const P_OUT = 0.1;
 
-export const ligthnessContrast = (foreground: Color, background: Color): number => {
+export function ligthnessContrast(foreground: Color, background: Color): number {
   return round(clampMinimumContrast(foreground, background) * 100, 1);
-};
+}
 
 const clampMinimumContrast = (foreground: Color, background: Color): number => {
   const C = clampNoiseThenScale(foreground, background);
@@ -26,13 +26,13 @@ const clampMinimumContrast = (foreground: Color, background: Color): number => {
   }
 };
 
-export const screenLuminance = (color: Color): number => {
+export function screenLuminance(color: Color): number {
   const r = Math.pow(color[0] / 255, 2.4) * 0.2126729;
   const g = Math.pow(color[1] / 255, 2.4) * 0.7151522;
   const b = Math.pow(color[2] / 255, 2.4) * 0.0721750;
 
   return r + g + b;
-};
+}
 
 const clampBlackLevels = (color: Color): number => {
   const luminance = screenLuminance(color);

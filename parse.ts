@@ -22,9 +22,11 @@ const chunk = (input: string, slice: number, tail: Array<string> = []): Array<st
     : tail;
 };
 
-export const hex = (input: string): Color => {
-  if (!isHex(input.trim())) return [NaN, NaN, NaN];
+export function hex(input: string): Color {
+  if (!isHex(input.trim()) || input.length === 0) {
+    return [NaN, NaN, NaN];
+  }
 
   const text = trimInput(input);
   return chunk(text, isShortHex(text) ? 1 : 2).map((p) => parseInt(p, 16)) as Color;
-};
+}

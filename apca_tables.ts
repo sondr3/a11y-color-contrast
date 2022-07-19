@@ -52,12 +52,16 @@ export type FontContrast = {
 /**
  * A utility function for looking up the contrast data for a font size.
  */
-export const getFontContrast = (fontSize: FontSize): FontContrast => FONT_TO_CONTRAST_TABLE[fontSize];
+export function getFontContrast(fontSize: FontSize): FontContrast {
+  return FONT_TO_CONTRAST_TABLE[fontSize];
+}
 
 /**
  * A utility function for looking what font sizes work for a specific, supported contrast.
  */
-export const getFontSizeByContrast = (contrast: LcValue): Array<LcFontSize> => CONTRAST_TO_FONT_TABLE[contrast];
+export function getFontSizeByContrast(contrast: LcValue): Array<LcFontSize> {
+  return CONTRAST_TO_FONT_TABLE[contrast];
+}
 
 /**
  * From a calculated Lc value, find the nearest value in the contrast table.
@@ -113,11 +117,11 @@ export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
  *
  * and see that for this combination is passes the required minimum.
  */
-export const apcaValidateFont = (
+export function apcaValidateFont(
   apca: number,
   sizes: FontSize | Array<FontSize>,
   weights?: FontWeight | ReadonlyArray<FontWeight>,
-) => {
+) {
   const contrast = Math.abs(apca);
   sizes = Array.isArray(sizes) ? sizes : [sizes];
   if (weights !== undefined) {
@@ -137,7 +141,7 @@ export const apcaValidateFont = (
   }
 
   return res;
-};
+}
 
 const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
   10: {

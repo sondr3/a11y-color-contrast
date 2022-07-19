@@ -13,13 +13,13 @@ export { ligthnessContrast as apcaScore };
 /**
  * Rounding that allows for arbitrary precision.
  */
-export const round = (number: number, digits = 2, base = Math.pow(10, digits)): number => {
+export function round(number: number, digits = 2, base = Math.pow(10, digits)): number {
   return Math.round((number + Number.EPSILON) * base) / base + 0;
-};
+}
 
 /**
  * Flooring that allows for arbitrary precision.
  */
-export const floor = (number: number, digits = 2, base = Math.pow(10, digits)): number => {
+export function floor(number: number, digits = 2, base = Math.pow(10, digits)): number {
   return Math.floor(number + Number.EPSILON * base) / base;
-};
+}

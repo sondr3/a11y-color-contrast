@@ -2,11 +2,13 @@ export type Color = [number, number, number];
 
 export type ColorObject = { r: number; g: number; b: number };
 
-export const colorFromObject = (input: ColorObject): Color => {
+export function colorFromObject(input: ColorObject): Color {
   return Object.values(input) as Color;
-};
+}
 
-export const isValid = (color: Color): boolean => !Object.values(color).some(isNaN);
+export function isValid(color: Color): boolean {
+  return !Object.values(color).some(isNaN);
+}
 
 /**
  * Convert a RGB triplet into its hex string representation.
@@ -20,7 +22,7 @@ export const isValid = (color: Color): boolean => !Object.values(color).some(isN
  * // "#808080"
  * ```
  */
-export const toHex = (color: Color): string => {
+export function toHex(color: Color): string {
   const [r, g, b] = color;
   return "#" + (1 << 24 | (r << 16 | g << 8 | b)).toString(16).slice(1);
-};
+}
