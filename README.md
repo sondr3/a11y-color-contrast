@@ -38,7 +38,7 @@
 ## Deno
 
 ```ts
-import { apcaScore, hex, wcgaScore } from "https://deno.land/x/a11y-color-contrast@0.1.0/mod.ts";
+import { apcaScore, hex, wcgaScore } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 const wcga = wcgaScore(hex("#e1e1e1"), hex("#fff"));
 const apca = apcaScore(hex("#e1e1e1"), hex("#fff"));
@@ -48,7 +48,7 @@ const apca = apcaScore(hex("#e1e1e1"), hex("#fff"));
 
 Install the module with your favorite manager: `npm add a11y-color-contrast`
 
-```ts
+```ts ignore
 import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
 
 const wcga = wcgaScore(hex("#e1e1e1"), hex("#fff"));
@@ -67,7 +67,8 @@ You can also read the documentation on
 it.
 
 ```ts
-import { hex } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 hex("#fff");
 hex("#e1e1e1");
@@ -87,7 +88,8 @@ is the foreground color and the second the background. By default, the function 
 pass the WCAG AAA standard (7:1 contrast ratio) for normal text.
 
 ```ts
-import { wcgaScore } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { hex, wcgaScore } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 wcgaScore(hex("#fff"), hex("#e1e1e1"));
 // { level: "AAA", size: "normal", score: 1.3076906134240802, pass: false }
@@ -108,7 +110,8 @@ A simpler version of the [`wcgaScore`](#wcgaScore) function, this checks whether
 based on the WCAG parameters passed.
 
 ```ts
-import { wcgaReadable } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { hex, wcgaReadable } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 wcgaReadable(hex("#fff"), hex("#e1e1e1"));
 // false
@@ -131,7 +134,8 @@ is highly recommended reading the linked article and [resources](#inspiration-an
 differences between the WCAG and APCA standard.
 
 ```ts
-import { apcaScore } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { apcaScore, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 apcaScore(hex("#fff"), hex("#e1e1e1"));
 // -17.5
@@ -153,7 +157,8 @@ The returned array contains nine values, corresponding to the font useable at fo
 until weight 900 at index 8.
 
 ```ts
-import { apcaToInterpolatedFont } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { apcaToInterpolatedFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 apcaToInterpolatedFont(-17.5);
 //  100 200 300 400 500 600 700 800 900
@@ -178,7 +183,8 @@ parameter is either a single font weight or an array of them. If the weight para
 all the font weights.
 
 ```ts
-import { apcaValidateFont } from "a11y-color-contrast";
+// import { apcaScore, hex, wcgaScore } from "a11y-color-contrast";
+import { apcaValidateFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
 
 apcaValidateFont(-17.5, 36, 800);
 // { "36": { "800": false } }

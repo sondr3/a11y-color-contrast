@@ -21,7 +21,7 @@ jobs:
         run: deno lint
 
       - name: test
-        run: deno test --allow-none
+        run: deno test --allow-none --doc
 
       - name: dnt
         run: deno run -A ./build_npm.ts

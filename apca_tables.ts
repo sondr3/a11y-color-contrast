@@ -104,9 +104,11 @@ export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
  * the required Lc value for a weight of 400 with a found Lc value of 94.90
  * you'd call
  *
- * ```
+ * ```ts
+ * import { apcaValidateFont } from "./apca_tables.ts";
+ *
  * apcaValidateFont(94.90, 16, 400)
- * > { "16": { "400": true } }
+ * // > { "16": { "400": true } }
  * ```
  *
  * and see that for this combination is passes the required minimum.
