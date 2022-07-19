@@ -2,13 +2,8 @@ export * from "./parse.ts";
 export * from "./color.ts";
 export * from "./apca_tables.ts";
 
-import { calculateContrast, isReadable } from "./wcag.ts";
-import { ligthnessContrast } from "./apca.ts";
-
-export { calculateContrast as wcgaScore };
-export { isReadable as wcgaReadable };
-
-export { ligthnessContrast as apcaScore };
+export { wcagReadable, wcgaScore } from "./wcag.ts";
+export { ligthnessContrast as apcaScore } from "./apca.ts";
 
 /**
  * Rounding that allows for arbitrary precision.
