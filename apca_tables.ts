@@ -23,19 +23,19 @@ export type LcFontSize = number | null;
 /**
  * The Lc rating of a contrast value:
  *
- * - "prohibited": if the contrast is too low for anything
- * - "placeholder": contrast only useable for copyrights/placeholder text
- * - number: if the value can be used
+ * - `"prohibited"`: if the contrast is too low for anything
+ * - `"placeholder"`: contrast only useable for copyrights/placeholder text
+ * - `number`: if the value can be used
  */
 export type Rating = number | "prohibited" | "placeholder";
 
 /**
  * Modifiers for a Lc rating:
  *
- * - "non-text": Only usable for non-text content
- * - "avoid-100": Avoid fonts with weight 100
- * - "add-15": To be usable, add 15 Lc
- * - "body-text": Good minimum values for blocks of text
+ * - `"non-text"`: Only usable for non-text content
+ * - `"avoid-100"`: Avoid fonts with weight 100
+ * - `"add-15"`: To be usable, add 15 Lc
+ * - `"body-text"`: Good minimum values for blocks of text
  */
 export type Modifier = "non-text" | "avoid-100" | "add-15" | "body-text";
 

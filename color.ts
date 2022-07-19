@@ -1,13 +1,29 @@
+/**
+ * Type alias for a RGB triplet (an array of only three numbers);
+ */
 export type Color = [number, number, number];
 
+/**
+ * Utility type for when you have RGB colors in an object.
+ */
 export type ColorObject = { r: number; g: number; b: number };
 
-export function colorFromObject(input: ColorObject): Color {
-  return Object.values(input) as Color;
+export function isValidColor(color: Color): boolean {
+  return !Object.values(color).some(isNaN);
 }
 
-export function isValid(color: Color): boolean {
-  return !Object.values(color).some(isNaN);
+/**
+ * Convert from a RGB object to a RGB triplet.
+ *
+ * ```ts
+ * import { colorFromObject } from "./color.ts";
+ *
+ * colorFromObject({ r: 128, g: 128, b: 128})
+ * // [128, 128, 128]
+ * ```
+ */
+export function colorFromObject(input: ColorObject): Color {
+  return Object.values(input) as Color;
 }
 
 /**

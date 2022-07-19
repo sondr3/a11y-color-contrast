@@ -10,7 +10,28 @@ const R_SCALE = 1.14;
 const W_OFFSET = 0.027;
 const P_OUT = 0.1;
 
-export function ligthnessContrast(foreground: Color, background: Color): number {
+/**
+ * This function calculates the contrast value between two colors based on WCAG
+ * contrast readability criteria. The first color is the foreground color and the
+ * second the background color (defaulting to pure white, "#fff" / [255, 255, 255]).
+ *
+ * **NOTE:** The returned value is signed, but only the absolute value matters, so you
+ * may want to wrap the result in `Math.abs`. The reason for this is that light on dark
+ * colors returns negative numbers, while dark on light returns positive numbers.
+ *
+ * ```ts
+ * import { apcaContrastValue } from "./apca.ts";
+ *
+ * apcaContrastValue([18, 52, 86], [0, 0, 0]) // purple on black
+ * // 98.5
+ *
+ * apcaContrastValue([0, 0, 0], [18, 52, 86]) // inverted from above
+ * // -101.9
+ * ```
+ *
+ * See https://github.com/Myndex/SAPC-APCA/ for concrete details for APCA.
+ */
+export function apcaContrastValue(foreground: Color, background: Color = [255, 255, 255]): number {
   return round(clampMinimumContrast(foreground, background) * 100, 1);
 }
 

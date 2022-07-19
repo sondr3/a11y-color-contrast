@@ -1,9 +1,10 @@
 export * from "./parse.ts";
 export * from "./color.ts";
 export { apcaToInterpolatedFont, apcaValidateFont, getFontContrast, getFontSizeByContrast } from "./apca_tables.ts";
+export type { Modifier, Rating } from "./apca_tables.ts";
 
 export { wcag, wcagContrastValue, wcagIsReadable } from "./wcag.ts";
-export { ligthnessContrast as apcaScore } from "./apca.ts";
+export { apcaContrastValue } from "./apca.ts";
 
 /**
  * Rounding that allows for arbitrary precision.

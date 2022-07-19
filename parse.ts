@@ -12,8 +12,7 @@ const isHex = (input: string): boolean => {
 const trimInput = (input: string): string => {
   const text = removeHash(input.trim());
   if (isAlpha(text) && isShortHex(text)) return text.slice(0, 3);
-  else if (isAlpha(text)) return text.slice(0, 6);
-  else return text;
+  else return text.slice(0, 6);
 };
 
 const chunk = (input: string, slice: number, tail: Array<string> = []): Array<string> => {
@@ -22,8 +21,20 @@ const chunk = (input: string, slice: number, tail: Array<string> = []): Array<st
     : tail;
 };
 
+/**
+ * Parse a string into a RGB color. Invalid input will return a `[NaN, NaN, NaN]`
+ * RGB triplet. If the input can be malformed, check after parsing with the `isValidColor`
+ * function.
+ *
+ * ```ts
+ * import { hex } from "./parse.ts";
+ *
+ * hex("#fff")
+ * // [255, 255, 255]
+ * ```
+ */
 export function hex(input: string): Color {
-  if (!isHex(input.trim()) || input.length === 0) {
+  if (input.length === 0 || !isHex(input.trim())) {
     return [NaN, NaN, NaN];
   }
 

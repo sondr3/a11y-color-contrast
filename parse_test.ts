@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
-import { Color, isValid, toHex } from "./color.ts";
+import { Color, isValidColor, toHex } from "./color.ts";
 import { hex } from "./parse.ts";
 
 interface ColorTest {
@@ -57,8 +57,8 @@ Deno.test("Ignores a case and extra whitespace", () => {
 });
 
 Deno.test("valid input is valid", () => {
-  assert(isValid(hex("#ffffff")));
-  assertFalse(isValid(hex("#0011gg")));
-  assertFalse(isValid(hex("#12345")));
-  assertFalse(isValid(hex("#1234567")));
+  assert(isValidColor(hex("#ffffff")));
+  assertFalse(isValidColor(hex("#0011gg")));
+  assertFalse(isValidColor(hex("#12345")));
+  assertFalse(isValidColor(hex("#1234567")));
 });

@@ -18,10 +18,10 @@ const setWCAG = ({ level = "AAA", size = "normal" }: WCAG): WCAG => ({
 /**
  * This function calculates the contrast and whether two colors used together are readable
  * based on WCAG readability criteria. The first color is the foreground color and the
- * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]). This is
- * a superset of the [`wcagIsReadable`][readable] and [`wcagContrastValue`][contrast] functions.
+ * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
  *
- * The readability criteria defaults to the 'AAA' level for normal text as defined
+ * This is a superset of the [`wcagIsReadable`][readable] and [`wcagContrastValue`][contrast]
+ * functions. The readability criteria defaults to the 'AAA' level for normal text as defined
  * in WCAG 2.2.
  *
  * ```ts
@@ -53,7 +53,7 @@ export function wcag(foreground: Color, background: Color = [255, 255, 255], wca
 /**
  * This function determines whether two colors used together are readable based
  * on WCAG readability criteria. The first color is the foreground color and the
- * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
+ * second the background color (defaulting to pure white, "#fff" / [255, 255, 255]).
  *
  * The readability criteria defaults to the 'AAA' level for normal text as defined
  * in WCAG 2.2.
@@ -78,7 +78,7 @@ export function wcagIsReadable(foreground: Color, background: Color = [255, 255,
 /**
  * This function calculates the contrast value between two colors based on WCAG
  * contrast readability criteria. The first color is the foreground color and the
- * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
+ * second the background color (defaulting to pure white, "#fff" / [255, 255, 255]).
  *
  * ```ts
  * import { wcagContrastValue } from "./wcag.ts";
