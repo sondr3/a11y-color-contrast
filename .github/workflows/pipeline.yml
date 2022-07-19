@@ -14,17 +14,31 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Formatting
+      - name: formatting
         run: deno fmt --check
 
-      - name: Linting
+      - name: linting
         run: deno lint
 
-      - name: Test
+      - name: test
         run: deno test --allow-none
 
+      - name: dnt
+        run: deno run -A ./build_npm.ts
+
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
       - name: Get tag version
-        if: startsWith(github.ref, 'refs/tags/')
         id: get_tag_version
         run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
 
@@ -34,20 +48,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: latest
-          registry-url: 'https://registry.npmjs.org'
 
       - name: publish NPM
-        if: startsWith(github.ref, 'refs/tags/')
         run: cd npm && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: publish GPR
-        run: cd npm && npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
