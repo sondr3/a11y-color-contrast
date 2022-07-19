@@ -39,16 +39,16 @@ jobs:
         with:
           deno-version: v1.x
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
       - name: Get tag version
         id: get_tag_version
         run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: npm build
         run: deno run -A ./build_npm.ts ${{steps.get_tag_version.outputs.TAG_VERSION}}
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
 
       - name: publish NPM
         run: cd npm && npm publish
