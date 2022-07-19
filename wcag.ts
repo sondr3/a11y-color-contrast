@@ -16,51 +16,30 @@ const setWCAG = ({ level = "AAA", size = "normal" }: WCAG): WCAG => ({
 });
 
 /**
- * This function determines whether two colors used together are readable based
- * on WCAG readability criteria. The first color is the foreground color and the
- * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
- *
- * The readability criteria defaults to the 'AAA' level for normal text as defined
- * in WCAG 2.2.
- *
- * ```ts
- * import { wcagReadable } from "./wcag.ts";
- *
- * wcagReadable([0, 255, 0], [0, 0, 0]) // green on black
- * // true
- *
- * wcagReadable([169, 169, 169], [0, 0, 0]) // dark gray on black
- * // false
- * ```
- *
- * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
- */
-export function wcagReadable(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): boolean {
-  const score = contrast(foreground, background);
-  return score >= contrastLevel(setWCAG({ ...wcag }));
-}
-
-/**
  * This function calculates the contrast and whether two colors used together are readable
  * based on WCAG readability criteria. The first color is the foreground color and the
- * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
+ * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]). This is
+ * a superset of the [`wcagIsReadable`][readable] and [`wcagContrastValue`][contrast] functions.
  *
  * The readability criteria defaults to the 'AAA' level for normal text as defined
  * in WCAG 2.2.
  *
  * ```ts
- * import { wcagScore } from "./wcag.ts";
+ * import { wcag } from "./wcag.ts";
  *
- * wcagScore([0, 255, 0], [0, 0, 0]) // green on black
+ * wcag([0, 255, 0], [0, 0, 0]) // green on black
  * // { level: "AAA", size: "normal", score: 15.303999999999998, pass: true }
  *
- * wcagScore([169, 169, 169], [0, 0, 0]) // dark gray on black
+ * wcag([169, 169, 169], [0, 0, 0]) // dark gray on black
  * // { level: "AAA", size: "normal", score: 2.6043964062893665, pass: false }
  * ```
  *
  * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
+ *
+ * [readable]: https://doc.deno.land/https://deno.land/x/a11y_color_contrast/mod.ts/~/wcagIsReadable
+ * [contrast]: https://doc.deno.land/https://deno.land/x/a11y_color_contrast/mod.ts/~/wcagContrastValue
  */
-export function wcagScore(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): WCAGScore {
+export function wcag(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): WCAGScore {
   const score = contrast(foreground, background);
   const pass = score >= contrastLevel(setWCAG({ ...wcag }));
 
@@ -69,6 +48,52 @@ export function wcagScore(foreground: Color, background: Color = [255, 255, 255]
     score,
     pass,
   };
+}
+
+/**
+ * This function determines whether two colors used together are readable based
+ * on WCAG readability criteria. The first color is the foreground color and the
+ * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
+ *
+ * The readability criteria defaults to the 'AAA' level for normal text as defined
+ * in WCAG 2.2.
+ *
+ * ```ts
+ * import { wcagIsReadable } from "./wcag.ts";
+ *
+ * wcagIsReadable([0, 255, 0], [0, 0, 0]) // green on black
+ * // true
+ *
+ * wcagIsReadable([169, 169, 169], [0, 0, 0]) // dark gray on black
+ * // false
+ * ```
+ *
+ * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
+ */
+export function wcagIsReadable(foreground: Color, background: Color = [255, 255, 255], wcag?: WCAG): boolean {
+  const score = contrast(foreground, background);
+  return score >= contrastLevel(setWCAG({ ...wcag }));
+}
+
+/**
+ * This function calculates the contrast value between two colors based on WCAG
+ * contrast readability criteria. The first color is the foreground color and the
+ * second the background color (defaulting to pure white, "#FFF" / [255, 255, 255]).
+ *
+ * ```ts
+ * import { wcagContrastValue } from "./wcag.ts";
+ *
+ * wcagContrastValue([0, 255, 0], [0, 0, 0]) // green on black
+ * // 15.303999999999998
+ *
+ * wcagContrastValue([169, 169, 169], [0, 0, 0]) // dark gray on black
+ * // 2.6043964062893665
+ * ```
+ *
+ * See https://www.w3.org/WAI/WCAG22/Techniques/general/G17.html for concrete details for WCAG 2.2.
+ */
+export function wcagContrastValue(foreground: Color, background: Color = [255, 255, 255]): number {
+  return contrast(foreground, background);
 }
 
 /**

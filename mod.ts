@@ -1,8 +1,8 @@
 export * from "./parse.ts";
 export * from "./color.ts";
-export * from "./apca_tables.ts";
+export { apcaToInterpolatedFont, apcaValidateFont, getFontContrast, getFontSizeByContrast } from "./apca_tables.ts";
 
-export { WCAG, wcagReadable, wcagScore } from "./wcag.ts";
+export { wcag, wcagContrastValue, wcagIsReadable } from "./wcag.ts";
 export { ligthnessContrast as apcaScore } from "./apca.ts";
 
 /**

@@ -1,6 +1,6 @@
 import { assert, assertEquals, assertFalse } from "testing/asserts.ts";
 import { hex, round } from "./mod.ts";
-import { contrast, luminance, wcagReadable } from "./wcag.ts";
+import { contrast, luminance, wcagIsReadable } from "./wcag.ts";
 
 Deno.test("calculates perceived luminance of a color", () => {
   assertEquals(luminance(hex("#000000")), 0);
@@ -26,15 +26,15 @@ Deno.test("calculates a contrast ratio for a color pair", () => {
 });
 
 Deno.test("passes readability tests", () => {
-  assert(wcagReadable(hex("#000")));
-  assertFalse(wcagReadable(hex("#777777")));
-  assertFalse(wcagReadable(hex("#e60000"), hex("#ffff47")));
-  assertFalse(wcagReadable(hex("#af085c"), hex("#000000")));
-  assertFalse(wcagReadable(hex("#af085c"), hex("#000000"), { size: "large" }));
-  assertFalse(wcagReadable(hex("#d53987"), hex("#000000")));
-  assertFalse(wcagReadable(hex("#d53987"), hex("#000000"), { level: "AAA" }));
-  assert(wcagReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AA" }));
-  assertFalse(wcagReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AAA" }));
-  assert(wcagReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AAA", size: "large" }));
-  assert(wcagReadable(hex("#e9dddd"), hex("#67325e"), { level: "AAA" }));
+  assert(wcagIsReadable(hex("#000")));
+  assertFalse(wcagIsReadable(hex("#777777")));
+  assertFalse(wcagIsReadable(hex("#e60000"), hex("#ffff47")));
+  assertFalse(wcagIsReadable(hex("#af085c"), hex("#000000")));
+  assertFalse(wcagIsReadable(hex("#af085c"), hex("#000000"), { size: "large" }));
+  assertFalse(wcagIsReadable(hex("#d53987"), hex("#000000")));
+  assertFalse(wcagIsReadable(hex("#d53987"), hex("#000000"), { level: "AAA" }));
+  assert(wcagIsReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AA" }));
+  assertFalse(wcagIsReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AAA" }));
+  assert(wcagIsReadable(hex("#e9dddd"), hex("#864b7c"), { level: "AAA", size: "large" }));
+  assert(wcagIsReadable(hex("#e9dddd"), hex("#67325e"), { level: "AAA" }));
 });
