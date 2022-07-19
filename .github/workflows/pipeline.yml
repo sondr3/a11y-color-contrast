@@ -30,6 +30,7 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    needs: pipeline
 
     steps:
       - uses: actions/checkout@v3
