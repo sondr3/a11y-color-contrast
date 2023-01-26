@@ -1,11 +1,11 @@
-import { build, emptyDir } from "https://deno.land/x/dnt@0.28.0/mod.ts";
+import { build, emptyDir } from "https://deno.land/x/dnt@0.33.0/mod.ts";
 
 await emptyDir("./npm");
 
 await build({
   entryPoints: ["./mod.ts"],
   esModule: true,
-  importMap: "./import_map.json",
+  importMap: "deno.jsonc",
   outDir: "./npm",
   shims: {
     deno: {
@@ -14,6 +14,7 @@ await build({
   },
   compilerOptions: {
     target: "ES2021",
+    sourceMap: true,
   },
   package: {
     name: "a11y-color-contrast",
@@ -31,7 +32,7 @@ await build({
     },
     keywords: ["a11y", "wcag", "apca", "contrast", "color"],
     engines: {
-      node: ">=16.6.0",
+      node: ">=18.0.0",
     },
   },
 });

@@ -3,7 +3,9 @@
     "npm": "deno run -A ./build_npm.ts",
     "test": "deno test --ignore=npm/"
   },
-  "importMap": "import_map.json",
+  "imports": {
+    "testing/": "https://deno.land/std@0.174.0/testing/"
+  },
   "fmt": {
     "files": {
       "exclude": [
