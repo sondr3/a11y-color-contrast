@@ -1,4 +1,7 @@
 {
+  "name": "@sondr3/a11y-color-contrast",
+  "version": "0.2.0",
+  "exports": "./mod.ts",
   "tasks": {
     "npm": "deno run -A ./build_npm.ts",
     "test": "deno test --ignore=npm/"
@@ -7,20 +10,14 @@
     "testing/": "https://deno.land/std@0.174.0/testing/"
   },
   "fmt": {
-    "files": {
-      "exclude": [
-        "npm/"
-      ]
-    },
-    "options": {
-      "lineWidth": 120
-    }
+    "exclude": [
+      "npm/"
+    ],
+    "lineWidth": 120
   },
   "lint": {
-    "files": {
-      "exclude": [
-        "npm/"
-      ]
-    }
+    "exclude": [
+      "npm/"
+    ]
   }
 }

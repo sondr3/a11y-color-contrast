@@ -121,7 +121,7 @@ export function apcaValidateFont(
   apca: number,
   sizes: FontSize | Array<FontSize>,
   weights?: FontWeight | ReadonlyArray<FontWeight>,
-) {
+): Record<string, Record<FontWeight, boolean>> {
   const contrast = Math.abs(apca);
   sizes = Array.isArray(sizes) ? sizes : [sizes];
   if (weights !== undefined) {
