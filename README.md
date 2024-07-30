@@ -2,7 +2,7 @@
 <p align="center">
     <a href="https://github.com/sondr3/a11y-color-contrast/actions"><img alt="GitHub Actions Status" src="https://github.com/sondr3/a11y-color-contrast/workflows/pipeline/badge.svg" /></a>
     <a href="https://www.npmjs.com/package/a11y-color-contrast"><img alt="npm" src="https://img.shields.io/npm/v/a11y-color-contrast" /></a>
-    <a href="https://doc.deno.land/https://deno.land/x/a11y_color_contrast/mod.ts"><img src="https://img.shields.io/badge/deno-doc-blue?logo=deno"></a>
+    <a href="https://jsr.io/@sondr3/a11y-color-contrast"> <img src="https://jsr.io/badges/@sondr3/a11y-color-contrast" alt="" /></a>
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@
 ## Deno
 
 ```ts
-import { apcaContrastValue, hex, wcagContrastValue } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { apcaContrastValue, hex, wcagContrastValue } from "@sondr3/a11y-color-contrast";
 
 const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
 const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
@@ -48,9 +48,9 @@ const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
 
 ## Node
 
-Install the module with your favorite manager: `npm add a11y-color-contrast`
+Install the module with your favorite manager: `pnpm add a11y-color-contrast`
 
-```ts ignore
+```ts 
 import { apcaContrastValue, hex, wcagContrastValue } from "a11y-color-contrast";
 
 const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
@@ -59,8 +59,7 @@ const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
 
 # Getting started
 
-You can also read the documentation on
-[Deno docs](https://doc.deno.land/https://deno.land/x/a11y_color_contrast/mod.ts).
+See more details and documentations at [JSR](https://jsr.io/@sondr3/a11y-color-contrast).
 
 ## `hex`
 
@@ -70,8 +69,7 @@ it. **Note,** the returned tripled will contain `NaN` if the string cannot be pa
 to check if the input can be invalid.
 
 ```ts
-// import { hex } from "a11y-color-contrast";
-import { hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { hex } from "a11y-color-contrast";
 
 hex("#fff");
 hex("#e1e1e1");
@@ -91,8 +89,7 @@ is the foreground color and the second the background. By default, the function 
 pass the WCAG AAA standard (7:1 contrast ratio) for normal text.
 
 ```ts
-// import { hex, wcag } from "a11y-color-contrast";
-import { hex, wcag } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { hex, wcag } from "a11y-color-contrast";
 
 wcag(hex("#fff"), hex("#e1e1e1"));
 // { level: "AAA", size: "normal", score: 1.3076906134240802, pass: false }
@@ -113,8 +110,7 @@ A simpler version of the [`wcag`](#wcag) function, this returns the contrast val
 2.2 algorithm.
 
 ```ts
-// import { hex, wcagContrastValue } from "a11y-color-contrast";
-import { hex, wcagContrastValue } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { hex, wcagContrastValue } from "a11y-color-contrast";
 
 wcagContrastValue(hex("#fff"), hex("#e1e1e1"));
 // 1.3076906134240802
@@ -129,8 +125,7 @@ A simpler version of the [`wcag`](#wcag) function, this checks whether two color
 the WCAG parameters passed.
 
 ```ts
-// import { hex, wcagIsReadable } from "a11y-color-contrast";
-import { hex, wcagIsReadable } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { hex, wcagIsReadable } from "a11y-color-contrast";
 
 wcagIsReadable(hex("#fff"), hex("#e1e1e1"));
 // false
@@ -153,8 +148,7 @@ is highly recommended reading the linked article and [resources](#inspiration-an
 differences between the WCAG and APCA standard.
 
 ```ts
-// import { apcaContrastValue, hex } from "a11y-color-contrast";
-import { apcaContrastValue, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { apcaContrastValue, hex } from "a11y-color-contrast";
 
 apcaContrastValue(hex("#fff"), hex("#e1e1e1"));
 // -17.5
@@ -176,8 +170,7 @@ The returned array contains nine values, corresponding to the font useable at fo
 until weight 900 at index 8.
 
 ```ts
-// import { apcaToInterpolatedFont, hex } from "a11y-color-contrast";
-import { apcaToInterpolatedFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { apcaToInterpolatedFont, hex } from "a11y-color-contrast";
 
 apcaToInterpolatedFont(-17.5);
 //  100 200 300 400 500 600 700 800 900
@@ -202,8 +195,7 @@ parameter is either a single font weight or an array of them. If the weight para
 all the font weights.
 
 ```ts
-// import { apcaValidateFont, hex } from "a11y-color-contrast";
-import { apcaValidateFont, hex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { apcaValidateFont, hex } from "a11y-color-contrast";
 
 apcaValidateFont(-17.5, 36, 800);
 // { "36": { "800": false } }
@@ -229,8 +221,7 @@ apcaValidateFont(51.2, [18, 32]);
 Converts an RGB triplet to its hex string representation.
 
 ```ts
-// import { toHex } from "a11y-color-contrast";
-import { toHex } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { toHex } from "a11y-color-contrast";
 
 toHex([0, 0, 0]);
 // "#000000"
@@ -241,8 +232,7 @@ toHex([0, 0, 0]);
 Checks whether a color parsed via [`hex`](#hex) is valid.
 
 ```ts
-// import { isValidColor } from "a11y-color-contrast";
-import { isValidColor } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { isValidColor } from "a11y-color-contrast";
 
 isValidColor([0, 0, 0]);
 // true
@@ -256,8 +246,7 @@ isValidColor([NaN, 0, 0]);
 Converts an RGB object into an RGB triplet.
 
 ```ts
-// import { colorFromObject } from "a11y-color-contrast";
-import { colorFromObject } from "https://deno.land/x/a11y_color_contrast/mod.ts";
+import { colorFromObject } from "a11y-color-contrast";
 
 colorFromObject({ r: 0, g: 0, b: 0 });
 // [0, 0, 0]

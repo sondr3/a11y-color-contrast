@@ -1,0 +1,50 @@
+{
+	"name": "a11y-color-contrast",
+	"version": "0.2.0",
+	"description": "A simple utility package for working with WCAG 2.2/3.0 color contrasts",
+	"keywords": ["a11y", "wcag", "apca", "contrast", "color"],
+	"author": "Sondre Aasemoen <sondre@eons.io> (https://www.eons.io)",
+	"license": "MIT",
+	"homepage": "https://github.com/sondr3/a11y-color-contrast#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sondr3/a11y-color-contrast.git"
+	},
+	"bugs": {
+		"url": "https://github.com/sondr3/a11y-color-contrast/issues"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=9.0.0"
+	},
+	"sideEffects": false,
+	"files": ["src", "dist", "LICENSE", "README.md", "CHANGELOG.md", "package.json"],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"default": "./dist/index.js",
+		"types": "./dist/index.d.ts"
+	},
+	"scripts": {
+		"prepare": "lefthook install",
+		"dev": "tsc --watch --incremental",
+		"build": "tsc",
+		"release": "tsc -p tsconfig.release.json",
+		"check": "biome check",
+		"fix": "biome check --write",
+		"test": "vitest",
+		"coverage": "vitest run --coverage"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"@tsconfig/node22": "22.0.0",
+		"@tsconfig/recommended": "1.0.7",
+		"@tsconfig/strictest": "2.0.5",
+		"@types/node": "^20.9.0",
+		"@vitest/coverage-v8": "2.0.4",
+		"lefthook": "1.7.11",
+		"typescript": "5.5.4",
+		"vitest": "2.0.4"
+	}
+}
