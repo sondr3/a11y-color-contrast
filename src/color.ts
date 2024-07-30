@@ -12,21 +12,21 @@ export type ColorObject = { r: number; g: number; b: number };
  * Checks if any of the values in an RGB triplet is `NaN`
  */
 export function isValidColor(color: Color): boolean {
-  return !Object.values(color).some(isNaN);
+	return !Object.values(color).some(Number.isNaN);
 }
 
 /**
  * Convert from a RGB object to a RGB triplet.
  *
  * ```ts
- * import { colorFromObject } from "./color.ts";
+ * import { colorFromObject } from "./color.js";
  *
  * colorFromObject({ r: 128, g: 128, b: 128})
  * // [128, 128, 128]
  * ```
  */
 export function colorFromObject(input: ColorObject): Color {
-  return Object.values(input) as Color;
+	return Object.values(input) as Color;
 }
 
 /**
@@ -35,13 +35,13 @@ export function colorFromObject(input: ColorObject): Color {
  * See [this post](https://ryanclark.me/rgb-to-hex-via-binary-shifting/) for how.
  *
  * ```ts
- * import { toHex } from "./color.ts";
+ * import { toHex } from "./color.js";
  *
  * toHex([128, 128, 128])
  * // "#808080"
  * ```
  */
 export function toHex(color: Color): string {
-  const [r, g, b] = color;
-  return "#" + (1 << 24 | (r << 16 | g << 8 | b)).toString(16).slice(1);
+	const [r, g, b] = color;
+	return `#${((1 << 24) | ((r << 16) | (g << 8) | b)).toString(16).slice(1)}`;
 }

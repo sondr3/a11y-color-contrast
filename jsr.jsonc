@@ -1,0 +1,5 @@
+{
+	"name": "@sondr3/a11y-color-contrast",
+	"version": "0.2.0",
+	"exports": "./src/index.ts"
+}
