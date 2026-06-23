@@ -25,8 +25,8 @@ export function isValidColor(color: Color): boolean {
  * // [128, 128, 128]
  * ```
  */
-export function colorFromObject(input: ColorObject): Color {
-	return Object.values(input) as Color
+export function colorFromObject({ r, g, b }: ColorObject): Color {
+	return [r, g, b]
 }
 
 /**
@@ -41,7 +41,6 @@ export function colorFromObject(input: ColorObject): Color {
  * // "#808080"
  * ```
  */
-export function toHex(color: Color): string {
-	const [r, g, b] = color
+export function toHex([r, g, b]: Color): string {
 	return `#${((1 << 24) | ((r << 16) | (g << 8) | b)).toString(16).slice(1)}`
 }

@@ -39,5 +39,6 @@ export function hex(input: string): Color {
 	}
 
 	const text = trimInput(input)
+	// oxlint-disable-next-line typescript/no-unsafe-type-assertion
 	return chunk(text, isShortHex(text) ? 1 : 2).map((p) => Number.parseInt(p, 16)) as Color
 }

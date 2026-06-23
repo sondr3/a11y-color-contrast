@@ -277,12 +277,14 @@ const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
 const nearestLc = (apca: number): LcValue | null => {
 	const contrast = Math.abs(apca)
 
+	// oxlint-disable typescript/no-unsafe-type-assertion
 	const [val, _] = slidingWindow(
 		Object.keys(CONTRAST_TO_FONT_TABLE).map((n) => Number(n) as LcValue),
 		2,
 	).find(([start, end]) => between(start as number, end as number, contrast)) ?? [null]
 
 	return val as LcValue | null
+	// oxlint-enable typescript/no-unsafe-type-assertion
 }
 
 /**
@@ -298,15 +300,19 @@ export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
 
 	const score = (contrast - neareastLc) * 0.2
 
+	// oxlint-disable typescript/no-non-null-assertion
 	return fontSizes.map((f, i) => {
 		if (!f) return "placeholder"
 		if (contrast < 14.5) return "prohibited"
 		if (contrast < 29.5) return "placeholder"
 
-		if (f > 24) return Math.round(f - (fontDeltas[i] as number) * score)
-		return f - Math.floor(2.0 * (fontDeltas[i] as number) * score) * 0.5
+		if (f > 24) return Math.round(f - fontDeltas[i]! * score)
+		return f - Math.floor(2.0 * fontDeltas[i]! * score) * 0.5
 	})
+	// oxlint-enable typescript/no-unsafe-type-assertion
 }
+
+const isNumber = (a: unknown): a is number => Number.isInteger(a)
 
 /**
  * With a given Lc value, a list or a specific font size and if desired the
@@ -346,7 +352,7 @@ export function apcaValidateFont(
 		for (const weight of weightsActual) {
 			const fontContrast = FONT_TO_CONTRAST_TABLE[font]
 			const c = fontContrast[weight].rating
-			const w = Number.isInteger(c) ? contrast >= (c as number) : false
+			const w = isNumber(c) ? contrast >= c : false
 			Object.assign(res, { [font]: { ...res[font], [weight]: w } })
 		}
 	}
