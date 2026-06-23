@@ -1,0 +1,42 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    environment: release
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v6
+        with:
+          node-version: latest
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+
+      - name: Install and build
+        run: pnpm install --frozen-lockfile
+
+      - name: npm build
+        run: pnpm release
+
+      - name: publish NPM
+        run: pnpm publish --no-git-checks --provenance --access public
+
+      - name: Publish package
+        run: pnpm dlx jsr publish
+
+      - name: create release
+        uses: softprops/action-gh-release@v3
+        with:
+          body_path: CHANGELOG.md
