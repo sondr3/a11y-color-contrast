@@ -17,5 +17,5 @@ export function round(number: number, digits = 2, base: number = 10 ** digits): 
  * Flooring that allows for arbitrary precision.
  */
 export function floor(number: number, digits = 2, base: number = 10 ** digits): number {
-	return Math.floor(number + Number.EPSILON * base) / base;
+	return Math.floor((number + Number.EPSILON) * base) / base;
 }
