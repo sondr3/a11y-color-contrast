@@ -51,17 +51,25 @@
 		"@sondr3/oxfmt": "0.1.2",
 		"@sondr3/oxlint": "0.1.1",
 		"@sondr3/tsconfig": "0.10.0",
-		"@types/node": "^20.9.0",
-		"@vitest/coverage-v8": "2.0.4",
-		"lefthook": "1.7.11",
+		"@types/node": "26.0.0",
+		"@vitest/coverage-v8": "4.1.9",
+		"lefthook": "2.1.9",
 		"oxfmt": "0.55.0",
 		"oxlint": "1.70.0",
 		"oxlint-tsgolint": "0.23.0",
 		"typescript": "7.0.1-rc",
-		"vitest": "2.0.4"
+		"vitest": "4.1.9"
 	},
 	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=9.0.0"
+		"node": ">=26.0.0",
+		"pnpm": ">=11.0.0"
+	},
+	"packageManager": "pnpm@11.8.0",
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "26.3.1",
+			"onFail": "download"
+		}
 	}
 }
