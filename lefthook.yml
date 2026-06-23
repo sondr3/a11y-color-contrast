@@ -4,7 +4,7 @@ pre-commit:
     - name: oxfmt
       stage_fixed: true
       glob: "**/*.{config.ts,ts,json,yml,yaml,md}"
-      run: pnpm format --no-error-on-unmatched-pattern {staged_files}
+      run: pnpm format:fix --no-error-on-unmatched-pattern {staged_files}
     - name: oxlint
       stage_fixed: true
       glob: "**/*.{ts,js}"
