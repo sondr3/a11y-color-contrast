@@ -10,8 +10,8 @@ const between = (start: number, end: number, value: number): boolean => value > 
 const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const
 export type FontWeight = (typeof fontWeights)[number]
 
-const fontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const
-export type FontSize = (typeof fontSizes)[number]
+const FontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const
+export type FontSize = (typeof FontSizes)[number]
 
 const lcValue = [110, 105, 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const
 export type LcValue = (typeof lcValue)[number]
@@ -44,102 +44,6 @@ export type FontContrast = {
 		rating: Rating
 		modifier?: Modifier
 	}
-}
-
-/**
- * A utility function for looking up the contrast data for a font size.
- */
-export function getFontContrast(fontSize: FontSize): FontContrast {
-	return FONT_TO_CONTRAST_TABLE[fontSize]
-}
-
-/**
- * A utility function for looking what font sizes work for a specific, supported contrast.
- */
-export function getFontSizeByContrast(contrast: LcValue): Array<LcFontSize> {
-	return CONTRAST_TO_FONT_TABLE[contrast]
-}
-
-/**
- * From a calculated Lc value, find the nearest value in the contrast table.
- */
-const nearestLc = (apca: number): LcValue | null => {
-	const contrast = Math.abs(apca)
-
-	const [val, _] = slidingWindow(
-		Object.keys(CONTRAST_TO_FONT_TABLE).map((n) => Number(n) as LcValue),
-		2,
-	).find(([start, end]) => between(start as number, end as number, contrast)) ?? [null]
-
-	return val as LcValue | null
-}
-
-/**
- * From a Lc value, interpolate and calculate the approriate font sizes.
- */
-export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
-	const contrast = Math.abs(apca)
-	const neareastLc = nearestLc(contrast)
-	if (!neareastLc) return null
-
-	const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc]
-	const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc]
-
-	const score = (contrast - neareastLc) * 0.2
-
-	return fontSizes.map((f, i) => {
-		if (!f) return "placeholder"
-		if (contrast < 14.5) return "prohibited"
-		if (contrast < 29.5) return "placeholder"
-
-		if (f > 24) return Math.round(f - (fontDeltas[i] as number) * score)
-		return f - Math.floor(2.0 * (fontDeltas[i] as number) * score) * 0.5
-	})
-}
-
-/**
- * With a given Lc value, a list or a specific font size and if desired the
- * font weights considered, does the Lc value satisfy the required minimum Lc
- * value for the font.
- *
- * For example. If we have a fontsize of 16px, and want to know if it passes
- * the required Lc value for a weight of 400 with a found Lc value of 94.90
- * you'd call
- *
- * ```ts
- * import { apcaValidateFont } from "./apca_tables.js";
- *
- * apcaValidateFont(94.90, 16, 400)
- * // > { "16": { "400": true } }
- * ```
- *
- * and see that for this combination is passes the required minimum.
- */
-export function apcaValidateFont(
-	apca: number,
-	sizes: FontSize | Array<FontSize>,
-	weights?: FontWeight | ReadonlyArray<FontWeight>,
-): Record<string, Record<FontWeight, boolean>> {
-	const contrast = Math.abs(apca)
-	const sizesActual = Array.isArray(sizes) ? sizes : [sizes]
-	let weightsActual: ReadonlyArray<FontWeight>
-	if (weights !== undefined) {
-		weightsActual = Array.isArray(weights) ? weights : [weights]
-	} else {
-		weightsActual = fontWeights
-	}
-
-	let res = {}
-	for (const font of sizesActual) {
-		for (const weight of weightsActual) {
-			const fontContrast = FONT_TO_CONTRAST_TABLE[font]
-
-			// @ts-ignore: I can't make the compiler infer the types properly here :(
-			res = { ...res, [font]: { ...res[font], [weight]: contrast >= fontContrast[weight].rating } }
-		}
-	}
-
-	return res
 }
 
 const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
@@ -365,4 +269,101 @@ const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
 	25: [0, 0, 0, 12, 12, 12, 24, 24, 24],
 	20: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	15: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+}
+
+/**
+ * From a calculated Lc value, find the nearest value in the contrast table.
+ */
+const nearestLc = (apca: number): LcValue | null => {
+	const contrast = Math.abs(apca)
+
+	const [val, _] = slidingWindow(
+		Object.keys(CONTRAST_TO_FONT_TABLE).map((n) => Number(n) as LcValue),
+		2,
+	).find(([start, end]) => between(start as number, end as number, contrast)) ?? [null]
+
+	return val as LcValue | null
+}
+
+/**
+ * From a Lc value, interpolate and calculate the approriate font sizes.
+ */
+export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
+	const contrast = Math.abs(apca)
+	const neareastLc = nearestLc(contrast)
+	if (!neareastLc) return null
+
+	const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc]
+	const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc]
+
+	const score = (contrast - neareastLc) * 0.2
+
+	return fontSizes.map((f, i) => {
+		if (!f) return "placeholder"
+		if (contrast < 14.5) return "prohibited"
+		if (contrast < 29.5) return "placeholder"
+
+		if (f > 24) return Math.round(f - (fontDeltas[i] as number) * score)
+		return f - Math.floor(2.0 * (fontDeltas[i] as number) * score) * 0.5
+	})
+}
+
+/**
+ * With a given Lc value, a list or a specific font size and if desired the
+ * font weights considered, does the Lc value satisfy the required minimum Lc
+ * value for the font.
+ *
+ * For example. If we have a fontsize of 16px, and want to know if it passes
+ * the required Lc value for a weight of 400 with a found Lc value of 94.90
+ * you'd call
+ *
+ * ```ts
+ * import { apcaValidateFont } from "./apca_tables.js";
+ *
+ * apcaValidateFont(94.90, 16, 400)
+ * // > { "16": { "400": true } }
+ * ```
+ *
+ * and see that for this combination is passes the required minimum.
+ */
+export function apcaValidateFont(
+	apca: number,
+	sizes: FontSize | Array<FontSize>,
+	weights?: FontWeight | ReadonlyArray<FontWeight>,
+): Record<string, Record<FontWeight, boolean>> {
+	const contrast = Math.abs(apca)
+	const sizesActual = Array.isArray(sizes) ? sizes : [sizes]
+	let weightsActual: ReadonlyArray<FontWeight>
+	// oxlint-disable-next-line no-undefined
+	if (weights !== undefined) {
+		weightsActual = Array.isArray(weights) ? weights : [weights]
+	} else {
+		weightsActual = fontWeights
+	}
+
+	let res: Record<string, Record<FontWeight, boolean>> = {}
+	for (const font of sizesActual) {
+		for (const weight of weightsActual) {
+			const fontContrast = FONT_TO_CONTRAST_TABLE[font]
+			const c = fontContrast[weight].rating
+			const w = Number.isInteger(c) ? contrast >= (c as number) : false
+			Object.assign(res, { [font]: { ...res[font], [weight]: w } })
+		}
+	}
+
+	return res
+}
+
+/**
+ * A utility function for looking up the contrast data for a font size.
+ */
+export function getFontContrast(fontSize: FontSize): FontContrast {
+	return FONT_TO_CONTRAST_TABLE[fontSize]
+}
+
+/**
+ * A utility function for looking what font sizes work for a specific, supported contrast.
+ */
+export function getFontSizeByContrast(contrast: LcValue): Array<LcFontSize> {
+	return CONTRAST_TO_FONT_TABLE[contrast]
 }

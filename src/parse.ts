@@ -22,7 +22,7 @@ const chunk = (input: string, slice: number, tail: Array<string> = []): Array<st
 }
 
 /**
- * Parse a string into a RGB color. Invalid input will return a `[NaN, NaN, NaN]`
+ * Parse a string into an RGB color. Invalid input will return a `[NaN, NaN, NaN]`
  * RGB triplet. If the input can be malformed, check after parsing with the `isValidColor`
  * function.
  *

@@ -1,8 +1,8 @@
 import { test } from "vitest"
 
-import { type Rating, apcaToInterpolatedFont } from "./apca_tables.js"
+import { type Rating, apcaToInterpolatedFont } from "./apca-tables.js"
 
-const fixtures: [number, Rating[]][] = [
+const fixtures: Array<[number, Array<Rating>]> = [
 	[
 		15.8,
 		[
