@@ -6,10 +6,12 @@ export default defineConfig({
 	rules: {
 		"eslint/no-bitwise": "off",
 	},
-	overrides: [{
-		files: ["*.config.ts"],
-		rules: {
-			"import/no-default-export": "off",
-		}
-	}]
+	overrides: [
+		{
+			files: ["*.config.ts"],
+			rules: {
+				"import/no-default-export": "off",
+			},
+		},
+	],
 })

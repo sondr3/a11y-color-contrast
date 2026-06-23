@@ -8,4 +8,4 @@ pre-commit:
     - name: oxlint
       stage_fixed: true
       glob: "**/*.{ts,js}"
-      run: pnpm oxlint --no-error-on-unmatched-pattern {staged_files}
+      run: pnpm lint:fix --no-error-on-unmatched-pattern {staged_files}
