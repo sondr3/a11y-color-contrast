@@ -1,9 +1,9 @@
-import { test } from "vitest"
+import { test, expect } from "vitest"
 
 import { hex, round } from "./index.js"
 import { contrast, luminance, wcagIsReadable } from "./wcag.js"
 
-test("calculates perceived luminance of a color", ({ expect }) => {
+test("calculates perceived luminance of a color", () => {
 	expect(luminance(hex("#000000"))).toBe(0)
 	expect(round(luminance(hex("#e42189")), 4)).toBe(0.1939)
 	expect(round(luminance(hex("#ff0000")), 4)).toBe(0.2126)
@@ -13,7 +13,7 @@ test("calculates perceived luminance of a color", ({ expect }) => {
 	expect(luminance(hex("#ffffff"))).toBe(1)
 })
 
-test("calculates a contrast ratio for a color pair", ({ expect }) => {
+test("calculates a contrast ratio for a color pair", () => {
 	expect(contrast(hex("#000000"))).toBe(21)
 	expect(contrast(hex("#ffffff"), hex("#000000"))).toBe(21)
 	expect(round(contrast(hex("#777777")), 4)).toBe(4.4781)
@@ -26,7 +26,7 @@ test("calculates a contrast ratio for a color pair", ({ expect }) => {
 	expect(round(contrast(hex("#fff4cc"), hex("#3a1209")), 4)).toBe(15.0067)
 })
 
-test("passes readability tests", ({ expect }) => {
+test("passes readability tests", () => {
 	expect(wcagIsReadable(hex("#000"))).toBeTruthy()
 	expect(wcagIsReadable(hex("#777777"))).toBeFalsy()
 	expect(wcagIsReadable(hex("#e60000"), hex("#ffff47"))).toBeFalsy()

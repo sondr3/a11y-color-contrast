@@ -1,4 +1,4 @@
-import { test } from "vitest"
+import { test, expect } from "vitest"
 
 import { type Color, isValidColor, toHex } from "./color.js"
 import { hex } from "./parse.js"
@@ -39,25 +39,25 @@ const hexTests: Array<ColorTest> = [
 	},
 ]
 
-test("simple hex parsing", ({ expect }) => {
+test("simple hex parsing", () => {
 	for (const { input, color: expected } of hexTests) {
 		expect(hex(input)).toEqual(expected)
 		expect(toHex(hex(input))).toBe(input)
 	}
 })
 
-test("support hex4 and hex8", ({ expect }) => {
+test("support hex4 and hex8", () => {
 	expect(hex("#ffffffff")).toStrictEqual([255, 255, 255])
 	expect(hex("#80808080")).toStrictEqual([128, 128, 128])
 	expect(hex("#AAAF")).toStrictEqual([170, 170, 170])
 	expect(hex("#5550")).toStrictEqual([85, 85, 85])
 })
 
-test("Ignores a case and extra whitespace", ({ expect }) => {
+test("Ignores a case and extra whitespace", () => {
 	expect(hex(" #0a0a0a ")).toStrictEqual([10, 10, 10])
 })
 
-test("valid input is valid", ({ expect }) => {
+test("valid input is valid", () => {
 	expect(isValidColor(hex("#ffffff"))).toBeTruthy()
 	expect(isValidColor(hex("#0011gg"))).toBeFalsy()
 	expect(isValidColor(hex("#12345"))).toBeFalsy()

@@ -38,8 +38,8 @@
 	"scripts": {
 		"prepare": "lefthook install",
 		"dev": "tsc --watch --incremental",
-		"build": "tsc",
-		"release": "tsc -p tsconfig.release.json",
+		"build": "rm -rf ./dist && tsc",
+		"release": "rm -rf ./dist && tsc -p tsconfig.release.json",
 		"format": "oxfmt",
 		"format:fix": "oxfmt --fix",
 		"lint": "oxlint .",
@@ -51,16 +51,13 @@
 		"@sondr3/oxfmt": "0.1.2",
 		"@sondr3/oxlint": "0.1.1",
 		"@sondr3/tsconfig": "0.10.0",
-		"@tsconfig/node22": "22.0.0",
-		"@tsconfig/recommended": "1.0.7",
-		"@tsconfig/strictest": "2.0.5",
 		"@types/node": "^20.9.0",
 		"@vitest/coverage-v8": "2.0.4",
 		"lefthook": "1.7.11",
 		"oxfmt": "0.55.0",
 		"oxlint": "1.70.0",
 		"oxlint-tsgolint": "0.23.0",
-		"typescript": "5.5.4",
+		"typescript": "7.0.1-rc",
 		"vitest": "2.0.4"
 	},
 	"engines": {

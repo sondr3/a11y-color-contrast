@@ -1,8 +1,8 @@
-import { test } from "vitest"
+import { test, expect } from "vitest"
 
 import { toHex } from "./color.js"
 
-test("can convert to hex", ({ expect }) => {
+test("can convert to hex", () => {
 	expect(toHex([255, 255, 255])).toBe("#ffffff")
 	expect(toHex([170, 170, 170])).toBe("#aaaaaa")
 	expect(toHex([128, 128, 128])).toBe("#808080")

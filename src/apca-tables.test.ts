@@ -1,4 +1,4 @@
-import { test } from "vitest"
+import { test, expect } from "vitest"
 
 import { type Rating, apcaToInterpolatedFont } from "./apca-tables.js"
 
@@ -378,7 +378,7 @@ const fixtures: Array<[number, Array<Rating>]> = [
 	[92.61, [46, 30, 20.5, 16, 15.5, 14.5, 14, 16, 18]],
 ]
 
-test("apcaToInterpolatecFont matches reference implementation", ({ expect }) => {
+test("apcaToInterpolatecFont matches reference implementation", () => {
 	for (const [apca, expected] of fixtures) {
 		expect(apcaToInterpolatedFont(apca)).toStrictEqual(expected)
 	}
