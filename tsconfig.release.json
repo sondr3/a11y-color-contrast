@@ -1,9 +1,4 @@
 {
-	"compilerOptions": {
-		"declaration": true,
-		"inlineSources": true,
-		"sourceMap": true
-	},
 	"extends": "./tsconfig.json",
 	"exclude": ["src/**/*.test.ts", "src/__snapshots__"]
 }
