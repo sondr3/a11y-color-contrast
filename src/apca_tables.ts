@@ -2,20 +2,20 @@
  * Create a sliding window across an array, where each window is some size.
  */
 const slidingWindow = <T>(inputArray: Array<T>, size: number): Array<Array<T>> => {
-	return Array.from({ length: inputArray.length - (size - 1) }, (_, index) => inputArray.slice(index, index + size));
-};
+	return Array.from({ length: inputArray.length - (size - 1) }, (_, index) => inputArray.slice(index, index + size))
+}
 
-const between = (start: number, end: number, value: number): boolean => value > start && value < end;
+const between = (start: number, end: number, value: number): boolean => value > start && value < end
 
-const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
-export type FontWeight = (typeof fontWeights)[number];
+const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900] as const
+export type FontWeight = (typeof fontWeights)[number]
 
-const fontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const;
-export type FontSize = (typeof fontSizes)[number];
+const fontSizes = [10, 12, 14, 15, 16, 18, 21, 24, 28, 32, 36, 42, 48, 60, 72, 96] as const
+export type FontSize = (typeof fontSizes)[number]
 
-const lcValue = [110, 105, 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const;
-export type LcValue = (typeof lcValue)[number];
-export type LcFontSize = number | null;
+const lcValue = [110, 105, 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15] as const
+export type LcValue = (typeof lcValue)[number]
+export type LcFontSize = number | null
 
 /**
  * The Lc rating of a contrast value:
@@ -24,7 +24,7 @@ export type LcFontSize = number | null;
  * - `"placeholder"`: contrast only useable for copyrights/placeholder text
  * - `number`: if the value can be used
  */
-export type Rating = number | "prohibited" | "placeholder";
+export type Rating = number | "prohibited" | "placeholder"
 
 /**
  * Modifiers for a Lc rating:
@@ -34,67 +34,67 @@ export type Rating = number | "prohibited" | "placeholder";
  * - `"add-15"`: To be usable, add 15 Lc
  * - `"body-text"`: Good minimum values for blocks of text
  */
-export type Modifier = "non-text" | "avoid-100" | "add-15" | "body-text";
+export type Modifier = "non-text" | "avoid-100" | "add-15" | "body-text"
 
 /**
  * Value for a specific font size with its corresponding font weights and ratings.
  */
 export type FontContrast = {
 	[k in FontWeight]: {
-		rating: Rating;
-		modifier?: Modifier;
-	};
-};
+		rating: Rating
+		modifier?: Modifier
+	}
+}
 
 /**
  * A utility function for looking up the contrast data for a font size.
  */
 export function getFontContrast(fontSize: FontSize): FontContrast {
-	return FONT_TO_CONTRAST_TABLE[fontSize];
+	return FONT_TO_CONTRAST_TABLE[fontSize]
 }
 
 /**
  * A utility function for looking what font sizes work for a specific, supported contrast.
  */
 export function getFontSizeByContrast(contrast: LcValue): Array<LcFontSize> {
-	return CONTRAST_TO_FONT_TABLE[contrast];
+	return CONTRAST_TO_FONT_TABLE[contrast]
 }
 
 /**
  * From a calculated Lc value, find the nearest value in the contrast table.
  */
 const nearestLc = (apca: number): LcValue | null => {
-	const contrast = Math.abs(apca);
+	const contrast = Math.abs(apca)
 
 	const [val, _] = slidingWindow(
 		Object.keys(CONTRAST_TO_FONT_TABLE).map((n) => Number(n) as LcValue),
 		2,
-	).find(([start, end]) => between(start as number, end as number, contrast)) ?? [null];
+	).find(([start, end]) => between(start as number, end as number, contrast)) ?? [null]
 
-	return val as LcValue | null;
-};
+	return val as LcValue | null
+}
 
 /**
  * From a Lc value, interpolate and calculate the approriate font sizes.
  */
 export function apcaToInterpolatedFont(apca: number): Array<Rating> | null {
-	const contrast = Math.abs(apca);
-	const neareastLc = nearestLc(contrast);
-	if (!neareastLc) return null;
+	const contrast = Math.abs(apca)
+	const neareastLc = nearestLc(contrast)
+	if (!neareastLc) return null
 
-	const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc];
-	const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc];
+	const fontSizes = CONTRAST_TO_FONT_TABLE[neareastLc]
+	const fontDeltas = CONTRAST_DELTA_FONT_TABLE[neareastLc]
 
-	const score = (contrast - neareastLc) * 0.2;
+	const score = (contrast - neareastLc) * 0.2
 
 	return fontSizes.map((f, i) => {
-		if (!f) return "placeholder";
-		if (contrast < 14.5) return "prohibited";
-		if (contrast < 29.5) return "placeholder";
+		if (!f) return "placeholder"
+		if (contrast < 14.5) return "prohibited"
+		if (contrast < 29.5) return "placeholder"
 
-		if (f > 24) return Math.round(f - (fontDeltas[i] as number) * score);
-		return f - Math.floor(2.0 * (fontDeltas[i] as number) * score) * 0.5;
-	});
+		if (f > 24) return Math.round(f - (fontDeltas[i] as number) * score)
+		return f - Math.floor(2.0 * (fontDeltas[i] as number) * score) * 0.5
+	})
 }
 
 /**
@@ -120,26 +120,26 @@ export function apcaValidateFont(
 	sizes: FontSize | Array<FontSize>,
 	weights?: FontWeight | ReadonlyArray<FontWeight>,
 ): Record<string, Record<FontWeight, boolean>> {
-	const contrast = Math.abs(apca);
-	const sizesActual = Array.isArray(sizes) ? sizes : [sizes];
-	let weightsActual: ReadonlyArray<FontWeight>;
+	const contrast = Math.abs(apca)
+	const sizesActual = Array.isArray(sizes) ? sizes : [sizes]
+	let weightsActual: ReadonlyArray<FontWeight>
 	if (weights !== undefined) {
-		weightsActual = Array.isArray(weights) ? weights : [weights];
+		weightsActual = Array.isArray(weights) ? weights : [weights]
 	} else {
-		weightsActual = fontWeights;
+		weightsActual = fontWeights
 	}
 
-	let res = {};
+	let res = {}
 	for (const font of sizesActual) {
 		for (const weight of weightsActual) {
-			const fontContrast = FONT_TO_CONTRAST_TABLE[font];
+			const fontContrast = FONT_TO_CONTRAST_TABLE[font]
 
 			// @ts-ignore: I can't make the compiler infer the types properly here :(
-			res = { ...res, [font]: { ...res[font], [weight]: contrast >= fontContrast[weight].rating } };
+			res = { ...res, [font]: { ...res[font], [weight]: contrast >= fontContrast[weight].rating } }
 		}
 	}
 
-	return res;
+	return res
 }
 
 const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
@@ -319,7 +319,7 @@ const FONT_TO_CONTRAST_TABLE: Record<FontSize, FontContrast> = {
 		800: { rating: 30 },
 		900: { rating: 30 },
 	},
-};
+}
 
 const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
 	110: [36, 24, 18, 14, 13, 12, 11, 16, 18],
@@ -342,7 +342,7 @@ const CONTRAST_TO_FONT_TABLE: Record<LcValue, Array<LcFontSize>> = {
 	25: [null, null, null, 120, 120, 108, 96, 96, 96],
 	20: [null, null, null, null, null, null, null, null, null],
 	15: [null, null, null, null, null, null, null, null, null],
-};
+}
 
 const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
 	110: [1.5, 1.5, 0.75, 1.5, 1.125, 0.75, 0.375, 1.5, 1.5],
@@ -365,4 +365,4 @@ const CONTRAST_DELTA_FONT_TABLE: Record<LcValue, Array<number>> = {
 	25: [0, 0, 0, 12, 12, 12, 24, 24, 24],
 	20: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	15: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-};
+}

@@ -1,18 +1,18 @@
 /**
  * Type alias for a RGB triplet (an array of only three numbers);
  */
-export type Color = [number, number, number];
+export type Color = [number, number, number]
 
 /**
  * Utility type for when you have RGB colors in an object.
  */
-export type ColorObject = { r: number; g: number; b: number };
+export type ColorObject = { r: number; g: number; b: number }
 
 /**
  * Checks if any of the values in an RGB triplet is `NaN`
  */
 export function isValidColor(color: Color): boolean {
-	return !Object.values(color).some(Number.isNaN);
+	return !Object.values(color).some(Number.isNaN)
 }
 
 /**
@@ -26,7 +26,7 @@ export function isValidColor(color: Color): boolean {
  * ```
  */
 export function colorFromObject(input: ColorObject): Color {
-	return Object.values(input) as Color;
+	return Object.values(input) as Color
 }
 
 /**
@@ -42,6 +42,6 @@ export function colorFromObject(input: ColorObject): Color {
  * ```
  */
 export function toHex(color: Color): string {
-	const [r, g, b] = color;
-	return `#${((1 << 24) | ((r << 16) | (g << 8) | b)).toString(16).slice(1)}`;
+	const [r, g, b] = color
+	return `#${((1 << 24) | ((r << 16) | (g << 8) | b)).toString(16).slice(1)}`
 }

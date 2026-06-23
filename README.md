@@ -40,21 +40,21 @@
 ## Deno
 
 ```ts
-import { apcaContrastValue, hex, wcagContrastValue } from "@sondr3/a11y-color-contrast";
+import { apcaContrastValue, hex, wcagContrastValue } from "@sondr3/a11y-color-contrast"
 
-const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
-const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
+const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"))
+const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"))
 ```
 
 ## Node
 
 Install the module with your favorite manager: `pnpm add a11y-color-contrast`
 
-```ts 
-import { apcaContrastValue, hex, wcagContrastValue } from "a11y-color-contrast";
+```ts
+import { apcaContrastValue, hex, wcagContrastValue } from "a11y-color-contrast"
 
-const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"));
-const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"));
+const wcag = wcagContrastValue(hex("#e1e1e1"), hex("#fff"))
+const apca = apcaContrastValue(hex("#e1e1e1"), hex("#fff"))
 ```
 
 # Getting started
@@ -69,17 +69,17 @@ it. **Note,** the returned tripled will contain `NaN` if the string cannot be pa
 to check if the input can be invalid.
 
 ```ts
-import { hex } from "a11y-color-contrast";
+import { hex } from "a11y-color-contrast"
 
-hex("#fff");
-hex("#e1e1e1");
+hex("#fff")
+hex("#e1e1e1")
 
 // Also support hex4/hex8
-hex("#1234");
-hex("#11ff0000");
+hex("#1234")
+hex("#11ff0000")
 
 // And missing #
-hex("fff");
+hex("fff")
 ```
 
 ## `wcag`
@@ -89,18 +89,18 @@ is the foreground color and the second the background. By default, the function 
 pass the WCAG AAA standard (7:1 contrast ratio) for normal text.
 
 ```ts
-import { hex, wcag } from "a11y-color-contrast";
+import { hex, wcag } from "a11y-color-contrast"
 
-wcag(hex("#fff"), hex("#e1e1e1"));
+wcag(hex("#fff"), hex("#e1e1e1"))
 // { level: "AAA", size: "normal", score: 1.3076906134240802, pass: false }
 
-wcag(hex("#0f0f0f"), hex("#fff"));
+wcag(hex("#0f0f0f"), hex("#fff"))
 // { level: "AAA", size: "normal", score: 19.168645448127652, pass: true }
 
-wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
+wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA" })
 // { level: "AA", size: "normal", score: 6.8668010864317885, pass: true }
 
-wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" });
+wcag(hex("#0f0f0f"), hex("#f4f"), { level: "AA", size: "large" })
 // { level: "AA", size: "large", score: 6.8668010864317885, pass: true }
 ```
 
@@ -110,12 +110,12 @@ A simpler version of the [`wcag`](#wcag) function, this returns the contrast val
 2.2 algorithm.
 
 ```ts
-import { hex, wcagContrastValue } from "a11y-color-contrast";
+import { hex, wcagContrastValue } from "a11y-color-contrast"
 
-wcagContrastValue(hex("#fff"), hex("#e1e1e1"));
+wcagContrastValue(hex("#fff"), hex("#e1e1e1"))
 // 1.3076906134240802
 
-wcagContrastValue(hex("#0f0f0f"), hex("#fff"));
+wcagContrastValue(hex("#0f0f0f"), hex("#fff"))
 // 19.168645448127652
 ```
 
@@ -125,18 +125,18 @@ A simpler version of the [`wcag`](#wcag) function, this checks whether two color
 the WCAG parameters passed.
 
 ```ts
-import { hex, wcagIsReadable } from "a11y-color-contrast";
+import { hex, wcagIsReadable } from "a11y-color-contrast"
 
-wcagIsReadable(hex("#fff"), hex("#e1e1e1"));
+wcagIsReadable(hex("#fff"), hex("#e1e1e1"))
 // false
 
-wcagIsReadable(hex("#0f0f0f"), hex("#fff"));
+wcagIsReadable(hex("#0f0f0f"), hex("#fff"))
 // true
 
-wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AAA" });
+wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AAA" })
 // false
 
-wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA" });
+wcagIsReadable(hex("#0f0f0f"), hex("#f4f"), { level: "AA" })
 // true
 ```
 
@@ -148,15 +148,15 @@ is highly recommended reading the linked article and [resources](#inspiration-an
 differences between the WCAG and APCA standard.
 
 ```ts
-import { apcaContrastValue, hex } from "a11y-color-contrast";
+import { apcaContrastValue, hex } from "a11y-color-contrast"
 
-apcaContrastValue(hex("#fff"), hex("#e1e1e1"));
+apcaContrastValue(hex("#fff"), hex("#e1e1e1"))
 // -17.5
 
-apcaContrastValue(hex("#0f0f0f"), hex("#fff"));
+apcaContrastValue(hex("#0f0f0f"), hex("#fff"))
 // 105.5
 
-apcaContrastValue(hex("#0f0f0f"), hex("#f4f"));
+apcaContrastValue(hex("#0f0f0f"), hex("#f4f"))
 // 51.2
 ```
 
@@ -170,17 +170,17 @@ The returned array contains nine values, corresponding to the font useable at fo
 until weight 900 at index 8.
 
 ```ts
-import { apcaToInterpolatedFont, hex } from "a11y-color-contrast";
+import { apcaToInterpolatedFont, hex } from "a11y-color-contrast"
 
-apcaToInterpolatedFont(-17.5);
+apcaToInterpolatedFont(-17.5)
 //  100 200 300 400 500 600 700 800 900
 // [ "placeholder", ...]
 
-apcaToInterpolatedFont(105.5);
+apcaToInterpolatedFont(105.5)
 //  100  200 300 400   500 600 700 800 900
 // [ 39, 25, 18, 14.5, 14, 13, 12, 16, 18 ]
 
-apcaToInterpolatedFont(51.2);
+apcaToInterpolatedFont(51.2)
 //  100  200 300 400 500 600   700   800   900
 // [ 92, 69, 57, 31, 27, 23.5, 20.5, 20.5, 20.5 ]
 ```
@@ -195,19 +195,19 @@ parameter is either a single font weight or an array of them. If the weight para
 all the font weights.
 
 ```ts
-import { apcaValidateFont, hex } from "a11y-color-contrast";
+import { apcaValidateFont, hex } from "a11y-color-contrast"
 
-apcaValidateFont(-17.5, 36, 800);
+apcaValidateFont(-17.5, 36, 800)
 // { "36": { "800": false } }
 
-apcaValidateFont(105.5, [14, 16, 18], [400, 600, 800]);
+apcaValidateFont(105.5, [14, 16, 18], [400, 600, 800])
 // {
 //   "14": { "400": true, "600": true, "800": false },
 //   "16": { "400": true, "600": true, "800": true },
 //   "18": { "400": true, "600": true, "800": true }
 // }
 
-apcaValidateFont(51.2, [18, 32]);
+apcaValidateFont(51.2, [18, 32])
 // {
 //   "18": { "100": false, "200": false, ..., "700": false, "800": false, "900": false },
 //   "32": { "100": false, "200": false, ..., "500": true, "600": true, "700": true, "800": true, "900": true }
@@ -221,9 +221,9 @@ apcaValidateFont(51.2, [18, 32]);
 Converts an RGB triplet to its hex string representation.
 
 ```ts
-import { toHex } from "a11y-color-contrast";
+import { toHex } from "a11y-color-contrast"
 
-toHex([0, 0, 0]);
+toHex([0, 0, 0])
 // "#000000"
 ```
 
@@ -232,12 +232,12 @@ toHex([0, 0, 0]);
 Checks whether a color parsed via [`hex`](#hex) is valid.
 
 ```ts
-import { isValidColor } from "a11y-color-contrast";
+import { isValidColor } from "a11y-color-contrast"
 
-isValidColor([0, 0, 0]);
+isValidColor([0, 0, 0])
 // true
 
-isValidColor([NaN, 0, 0]);
+isValidColor([NaN, 0, 0])
 // false
 ```
 
@@ -246,9 +246,9 @@ isValidColor([NaN, 0, 0]);
 Converts an RGB object into an RGB triplet.
 
 ```ts
-import { colorFromObject } from "a11y-color-contrast";
+import { colorFromObject } from "a11y-color-contrast"
 
-colorFromObject({ r: 0, g: 0, b: 0 });
+colorFromObject({ r: 0, g: 0, b: 0 })
 // [0, 0, 0]
 ```
 

@@ -1,5 +1,6 @@
-import { test } from "vitest";
-import { type Rating, apcaToInterpolatedFont } from "./apca_tables.js";
+import { test } from "vitest"
+
+import { type Rating, apcaToInterpolatedFont } from "./apca_tables.js"
 
 const fixtures: [number, Rating[]][] = [
 	[
@@ -375,10 +376,10 @@ const fixtures: [number, Rating[]][] = [
 	[81.39, [55, 37, 23, 17.25, 15.81, 14.81, 14, 16, 18]],
 	[91.42, [47, 31, 21, 16, 15.5, 14.5, 14, 16, 18]],
 	[92.61, [46, 30, 20.5, 16, 15.5, 14.5, 14, 16, 18]],
-];
+]
 
 test("apcaToInterpolatecFont matches reference implementation", ({ expect }) => {
 	for (const [apca, expected] of fixtures) {
-		expect(apcaToInterpolatedFont(apca)).toStrictEqual(expected);
+		expect(apcaToInterpolatedFont(apca)).toStrictEqual(expected)
 	}
-});
+})

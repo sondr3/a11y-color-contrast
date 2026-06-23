@@ -2,24 +2,33 @@
 	"name": "a11y-color-contrast",
 	"version": "0.2.0",
 	"description": "A simple utility package for working with WCAG 2.2/3.0 color contrasts",
-	"keywords": ["a11y", "wcag", "apca", "contrast", "color"],
-	"author": "Sondre Aasemoen <sondre@eons.io> (https://www.eons.io)",
-	"license": "MIT",
+	"keywords": [
+		"a11y",
+		"apca",
+		"color",
+		"contrast",
+		"wcag"
+	],
 	"homepage": "https://github.com/sondr3/a11y-color-contrast#readme",
+	"bugs": {
+		"url": "https://github.com/sondr3/a11y-color-contrast/issues"
+	},
+	"license": "MIT",
+	"author": "Sondre Aasemoen <sondre@eons.io> (https://www.eons.io)",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/sondr3/a11y-color-contrast.git"
 	},
-	"bugs": {
-		"url": "https://github.com/sondr3/a11y-color-contrast/issues"
-	},
+	"files": [
+		"src",
+		"dist",
+		"LICENSE",
+		"README.md",
+		"CHANGELOG.md",
+		"package.json"
+	],
 	"type": "module",
-	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=9.0.0"
-	},
 	"sideEffects": false,
-	"files": ["src", "dist", "LICENSE", "README.md", "CHANGELOG.md", "package.json"],
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
@@ -31,20 +40,31 @@
 		"dev": "tsc --watch --incremental",
 		"build": "tsc",
 		"release": "tsc -p tsconfig.release.json",
-		"check": "biome check",
-		"fix": "biome check --write",
+		"format": "oxfmt",
+		"format:fix": "oxfmt --fix",
+		"lint": "oxlint .",
+		"lint:fix": "oxlint --fix .",
 		"test": "vitest",
 		"coverage": "vitest run --coverage"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.8.3",
+		"@sondr3/oxfmt": "0.1.2",
+		"@sondr3/oxlint": "0.1.1",
+		"@sondr3/tsconfig": "0.10.0",
 		"@tsconfig/node22": "22.0.0",
 		"@tsconfig/recommended": "1.0.7",
 		"@tsconfig/strictest": "2.0.5",
 		"@types/node": "^20.9.0",
 		"@vitest/coverage-v8": "2.0.4",
 		"lefthook": "1.7.11",
+		"oxfmt": "0.55.0",
+		"oxlint": "1.70.0",
+		"oxlint-tsgolint": "0.23.0",
 		"typescript": "5.5.4",
 		"vitest": "2.0.4"
+	},
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=9.0.0"
 	}
 }

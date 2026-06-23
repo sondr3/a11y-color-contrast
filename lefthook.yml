@@ -1,5 +1,11 @@
 pre-commit:
-  commands:
-    check:
-      glob: "*.{mjs,ts,json,jsonc,yml}"
-      run: pnpm check
+  parallel: true
+  jobs:
+    - name: oxfmt
+      stage_fixed: true
+      glob: "**/*.{config.ts,ts,json,yml,yaml,md}"
+      run: pnpm format --no-error-on-unmatched-pattern {staged_files}
+    - name: oxlint
+      stage_fixed: true
+      glob: "**/*.{ts,js}"
+      run: pnpm oxlint --no-error-on-unmatched-pattern {staged_files}
