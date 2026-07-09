@@ -6,7 +6,8 @@ const isShortHex = (input: string): boolean => input.length === 3 || input.lengt
 const isAlpha = (input: string): boolean => input.length === 4 || input.length === 8
 
 const isHex = (input: string): boolean => {
-	return [3, 4, 6, 8].some((l) => removeHash(input).length === l)
+	const text = removeHash(input)
+	return [3, 4, 6, 8].some((l) => text.length === l) && /^[0-9a-f]+$/i.test(text)
 }
 
 const trimInput = (input: string): string => {

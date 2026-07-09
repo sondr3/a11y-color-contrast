@@ -63,3 +63,8 @@ test("valid input is valid", () => {
 	expect(isValidColor(hex("#12345"))).toBeFalsy()
 	expect(isValidColor(hex("#1234567"))).toBeFalsy()
 })
+
+test("rejects non-hex characters in any position", () => {
+	expect(isValidColor(hex("#abcdeg"))).toBeFalsy()
+	expect(isValidColor(hex("#00115g"))).toBeFalsy()
+})
