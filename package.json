@@ -1,6 +1,6 @@
 {
 	"name": "a11y-color-contrast",
-	"version": "0.3.0-rc.1",
+	"version": "0.3.0-rc.2",
 	"description": "A simple utility package for working with WCAG 2.2/3.0 color contrasts",
 	"keywords": [
 		"a11y",
